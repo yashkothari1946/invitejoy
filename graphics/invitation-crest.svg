@@ -1,0 +1,28 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="180" y1="120" x2="1000" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#201711"/>
+      <stop offset="1" stop-color="#0C0A08"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="320" y1="220" x2="920" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0D4A0"/>
+      <stop offset="1" stop-color="#B88A4D"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 330) rotate(90) scale(330)">
+      <stop stop-color="#D8B36F" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#D8B36F" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1200" rx="64" fill="url(#bg)"/>
+  <circle cx="600" cy="330" r="330" fill="url(#glow)"/>
+  <circle cx="600" cy="600" r="256" stroke="url(#gold)" stroke-width="14"/>
+  <circle cx="600" cy="600" r="196" stroke="#F0D4A0" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="7 20"/>
+  <path d="M600 316L650 520L860 520L690 640L748 850L600 720L452 850L510 640L340 520L550 520L600 316Z" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M600 390C675 390 730 445 730 520C730 595 675 650 600 650C525 650 470 595 470 520C470 445 525 390 600 390Z" fill="none" stroke="#F0D4A0" stroke-opacity="0.7" stroke-width="8"/>
+  <path d="M310 340C390 260 455 230 540 220" stroke="#F0D4A0" stroke-opacity="0.55" stroke-width="8" stroke-linecap="round"/>
+  <path d="M890 340C810 260 745 230 660 220" stroke="#F0D4A0" stroke-opacity="0.55" stroke-width="8" stroke-linecap="round"/>
+  <path d="M300 840C390 900 470 930 560 940" stroke="#F0D4A0" stroke-opacity="0.45" stroke-width="8" stroke-linecap="round"/>
+  <path d="M900 840C810 900 730 930 640 940" stroke="#F0D4A0" stroke-opacity="0.45" stroke-width="8" stroke-linecap="round"/>
+  <text x="600" y="760" text-anchor="middle" fill="#F7EFE6" font-family="Cormorant Garamond, serif" font-size="64" font-weight="700">MEERA & ARJUN</text>
+  <text x="600" y="820" text-anchor="middle" fill="#D8B36F" font-family="Manrope, sans-serif" font-size="28" letter-spacing="6">WEDDING CREST</text>
+</svg>

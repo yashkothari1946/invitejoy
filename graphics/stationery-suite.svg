@@ -1,0 +1,30 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171310"/>
+      <stop offset="1" stop-color="#0D0B09"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="200" y1="120" x2="1050" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F0E6"/>
+      <stop offset="1" stop-color="#E9D7C1"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="350" y1="120" x2="850" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0D4A0"/>
+      <stop offset="1" stop-color="#B98A50"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="56" fill="url(#bg)"/>
+  <rect x="140" y="110" width="440" height="620" rx="34" fill="url(#paper)" transform="rotate(-6 140 110)"/>
+  <rect x="620" y="150" width="360" height="520" rx="30" fill="#F7EFE6" opacity="0.92" transform="rotate(7 620 150)"/>
+  <rect x="680" y="210" width="250" height="26" rx="13" fill="url(#gold)" opacity="0.95" transform="rotate(7 680 210)"/>
+  <rect x="680" y="260" width="300" height="14" rx="7" fill="#9B8260" opacity="0.5" transform="rotate(7 680 260)"/>
+  <rect x="680" y="295" width="260" height="14" rx="7" fill="#9B8260" opacity="0.35" transform="rotate(7 680 295)"/>
+  <rect x="200" y="200" width="250" height="250" rx="28" fill="#14110F" opacity="0.16" transform="rotate(-6 200 200)"/>
+  <circle cx="320" cy="305" r="72" stroke="url(#gold)" stroke-width="10" transform="rotate(-6 320 305)"/>
+  <path d="M290 285C315 250 350 250 375 285C350 320 315 320 290 285Z" fill="url(#gold)" transform="rotate(-6 320 305)"/>
+  <text x="280" y="560" fill="#2A2118" font-family="Cormorant Garamond, serif" font-size="48" font-weight="700" transform="rotate(-6 280 560)">SAVE THE DATE</text>
+  <text x="280" y="625" fill="#6A5840" font-family="Manrope, sans-serif" font-size="26" transform="rotate(-6 280 625)">Wedding stationery suite</text>
+  <circle cx="930" cy="560" r="60" fill="#F0D4A0" opacity="0.2"/>
+  <path d="M900 560H960" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M930 530V590" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Samples Gallery | Vybtek Wedding</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .gallery-item {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(44, 42, 41, 0.1);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--shadow);
+      }
+      .gallery-img-wrapper {
+        height: 240px;
+        background: rgba(44, 42, 41, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .gallery-img-wrapper img,
+      .gallery-img-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+      .gallery-item:hover img,
+      .gallery-item:hover video {
+        transform: scale(1.05);
+      }
+      .gallery-content {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .gallery-content h4 {
+        margin: 0;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.3rem;
+      }
+      .gallery-content p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .gallery-filters {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.5);
+        border: 1px solid rgba(44,42,41,0.1);
+        cursor: pointer;
+      }
+      .filter-btn.active {
+        background: rgba(184, 134, 11, 0.2);
+        border-color: var(--gold);
+        color: var(--gold-strong);
+      }
+    </style>
+  </head>
+  <body class="page-shell">
+    <header class="topbar">
+      <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
+        <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
+        <div>
+          <h1 style="font-size: 1.15rem; margin: 0; color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; line-height: 1.1;">Vybtek Studio</h1>
+          <p class="eyebrow" style="margin: 0.15rem 0 0 0; font-size: 0.72rem; color: var(--gold-strong); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;">Wedding Creatives</p>
+        </div>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="packages.html">Packages</a>
+        <a href="portfolio.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a class="button button-primary header-cart-btn" href="cart.html" style="font-size: 0.85rem; padding: 0.45rem 1.1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;">🛒 Cart <span class="cart-badge-count">0</span></a>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Portfolio & Mockups</p>
+        <h2>Browse our aesthetic design samples</h2>
+        <p class="lead">View examples of our graphics, typography, and layout work. Video animations and full dummy websites are coming soon.</p>
+      </div>
+
+      <div class="gallery-filters" id="galleryFilters"></div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+
+    </main>
+
+    <footer class="footer">
+      <p>Wedding Design Studio</p>
+      <p>Luxury design services.</p>
+      <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
+    </footer>
+
+    <script src="nav.js"></script>
+
+    <script>
+      let allItems = [];
+      let dummyImages = [];
+      
+      async function loadSamples() {
+        const res = await fetch("/api/data");
+        if (res.ok) {
+          const data = await res.json();
+          const activeCats = (data.categories || []).filter(c => c.active !== false);
+          renderFilters(activeCats);
+          
+          activeCats.forEach(cat => {
+            cat.items.forEach(item => {
+              if (item.active !== false) {
+                item.categoryName = cat.name;
+                item.categoryId = cat.id;
+                allItems.push(item);
+              }
+            });
+          });
+        }
+        
+        const imgRes = await fetch("/api/images");
+        if (imgRes.ok) {
+           dummyImages = await imgRes.json();
+        }
+        
+        renderGallery('all');
+      }
+
+      function renderFilters(categories) {
+        const container = document.getElementById("galleryFilters");
+        container.innerHTML = `<button class="filter-btn active" onclick="filterGallery('all', this)">All</button>`;
+        categories.forEach(cat => {
+          container.innerHTML += `<button class="filter-btn" onclick="filterGallery('${cat.id}', this)">${cat.name}</button>`;
+        });
+        container.innerHTML += `<button class="filter-btn" onclick="filterGallery('dummy', this)">All Dummy Samples</button>`;
+      }
+
+      function filterGallery(catId, btnEl) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        if(btnEl) btnEl.classList.add('active');
+        renderGallery(catId);
+      }
+
+      function renderGallery(catId) {
+        const grid = document.getElementById("galleryGrid");
+        grid.innerHTML = "";
+        
+        if (catId === 'dummy') {
+           dummyImages.forEach(img => {
+             grid.innerHTML += `
+              <div class="gallery-item">
+                <div class="gallery-img-wrapper" style="height: 300px;">
+                  <img src="samples/${img}" alt="${img}" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                  <h4>${img.replace('.png', '').replace('.jpg', '')}</h4>
+                  <p>Sample File</p>
+                </div>
+              </div>
+            `;
+           });
+           return;
+        }
+        
+        const filtered = catId === 'all' ? allItems : allItems.filter(i => i.categoryId === catId);
+        
+        filtered.forEach(item => {
+          const sampleList = (item.samples && item.samples.length > 0) ? item.samples : (item.sample ? [item.sample] : ['graphics/website-dashboard.jpg']);
+          const hasMultiple = sampleList.length > 1;
+          const firstSample = sampleList[0] || '';
+          const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(firstSample);
+
+          let imgWrapperContent = isVideo
+            ? `<video id="img-${item.id}" src="${firstSample}" controls muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background: #0c0b0a;" data-index="0"></video>`
+            : `<img id="img-${item.id}" src="${firstSample}" alt="${item.name}" loading="lazy" data-index="0">`;
+          
+          if (hasMultiple) {
+            imgWrapperContent += `
+              <button class="carousel-btn prev" onclick="changeSlide('${item.id}', -1, event)">&lsaquo;</button>
+              <button class="carousel-btn next" onclick="changeSlide('${item.id}', 1, event)">&rsaquo;</button>
+              <span class="carousel-counter" id="counter-${item.id}">1/${sampleList.length}</span>
+            `;
+          }
+
+          let demoUrlsList = (item.demoUrls && item.demoUrls.length > 0) 
+            ? item.demoUrls.filter(Boolean) 
+            : (item.demoUrl ? item.demoUrl.split(",").map(u => u.trim()).filter(Boolean) : (item.type === 'website' ? ['index.html'] : []));
+
+          let demoLinkBtn = '';
+          if (demoUrlsList.length === 1) {
+            demoLinkBtn = `
+              <a href="${demoUrlsList[0]}" target="_blank" rel="noopener" class="button button-secondary" style="margin-top: 0.5rem; padding: 0.4rem 0.6rem; font-size: 0.8rem; border-color: var(--gold); color: var(--gold-strong); text-align: center; font-weight: 700;">🌐 View Live Website Demo</a>
+            `;
+          } else if (demoUrlsList.length > 1) {
+            demoLinkBtn = `
+              <div style="display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem;">
+                <small style="font-size: 0.72rem; color: var(--muted); font-weight: 700;">🌐 Live Demos (${demoUrlsList.length}):</small>
+                <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                  ${demoUrlsList.map((url, i) => `
+                    <a href="${url}" target="_blank" rel="noopener" class="button button-secondary" style="flex: 1; min-width: 80px; text-align: center; padding: 0.35rem 0.4rem; font-size: 0.76rem; border-color: var(--gold); color: var(--gold-strong); font-weight: 700;">Demo ${i + 1}</a>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+            const inCart = CartManager.isInCart(item.id);
+          const cardActionBtn = getGalleryActionBtnHtml(item, inCart);
+
+          grid.innerHTML += `
+            <div class="gallery-item">
+              <div class="gallery-img-wrapper ${isVideo || item.type === 'video' ? 'video-card-box' : ''}" id="wrapper-${item.id}" data-samples='${JSON.stringify(sampleList)}'>
+                ${imgWrapperContent}
+              </div>
+              <div class="gallery-content">
+                <h4>${item.name}</h4>
+                <p style="color: var(--gold-strong); font-weight: 700;">${item.type === 'graphic' ? 'Graphic Design' : item.type === 'video' ? 'Video Animation' : 'Wedding Website'}</p>
+                ${demoLinkBtn}
+                
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; border-top: 1px solid rgba(44,42,41,0.08); padding-top: 0.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <small style="font-weight: 700; color: var(--muted);">Quantity:</small>
+                    <div style="display: inline-flex; align-items: center; background: rgba(44,42,41,0.06); border-radius: 6px; border: 1px solid rgba(44,42,41,0.15); overflow: hidden;">
+                      <button type="button" onclick="adjustGalleryQty('${item.id}', -1)" style="border:none; background:none; padding: 0.2rem 0.5rem; cursor:pointer; font-weight:bold; font-size: 0.9rem;">-</button>
+                      <input type="number" id="gqty-${item.id}" value="1" min="1" max="99" style="width: 30px; text-align: center; border: none; background: transparent; font-size: 0.82rem; font-weight: 700; outline: none;">
+                      <button type="button" onclick="adjustGalleryQty('${item.id}', 1)" style="border:none; background:none; padding: 0.2rem 0.5rem; cursor:pointer; font-weight:bold; font-size: 0.9rem;">+</button>
+                    </div>
+                  </div>
+                  ${cardActionBtn}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function getGalleryActionBtnHtml(item, inCart) {
+        if (inCart) {
+          return `<button id="gbtn-${item.id}" onclick='toggleGalleryCart(${JSON.stringify(item)}, "${item.id}")' class="button" style="width: 100%; border-radius: 8px; font-weight: 700; padding: 0.45rem; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem; background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='#ffebee'; this.style.color='#c62828'; this.style.borderColor='#ef9a9a'; this.innerHTML='❌ Remove from Cart';" onmouseout="this.style.background='#e8f5e9'; this.style.color='#2e7d32'; this.style.borderColor='#a5d6a7'; this.innerHTML='✔ In Cart';">✔ In Cart</button>`;
+        } else {
+          return `<button id="gbtn-${item.id}" onclick='toggleGalleryCart(${JSON.stringify(item)}, "${item.id}")' class="button button-primary" style="width: 100%; border-radius: 8px; font-weight: 700; padding: 0.45rem; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">🛒 Add to Cart</button>`;
+        }
+      }
+
+      function adjustGalleryQty(itemId, change) {
+        const input = document.getElementById(`gqty-${itemId}`);
+        if (!input) return;
+        let val = parseInt(input.value) || 1;
+        val = Math.max(1, val + change);
+        input.value = val;
+      }
+
+      function toggleGalleryCart(item, itemId) {
+        const inCart = CartManager.isInCart(itemId);
+        if (inCart) {
+          CartManager.removeItem(itemId);
+          CartManager.showToast(`Removed "${item.name}" from Cart`, true);
+          updateGalleryBtnState(item, itemId, false);
+        } else {
+          const input = document.getElementById(`gqty-${itemId}`);
+          const qty = input ? (parseInt(input.value) || 1) : 1;
+          CartManager.addItem(item, qty);
+          updateGalleryBtnState(item, itemId, true);
+        }
+      }
+
+      function updateGalleryBtnState(item, itemId, inCart) {
+        const btn = document.getElementById(`gbtn-${itemId}`);
+        if (!btn) return;
+
+        if (inCart) {
+          btn.className = "button";
+          btn.style.cssText = "width: 100%; border-radius: 8px; font-weight: 700; padding: 0.45rem; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem; background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; cursor: pointer; transition: all 0.2s ease;";
+          btn.innerHTML = "✔ In Cart";
+          btn.onmouseover = function() {
+            this.style.background = "#ffebee";
+            this.style.color = "#c62828";
+            this.style.borderColor = "#ef9a9a";
+            this.innerHTML = "❌ Remove from Cart";
+          };
+          btn.onmouseout = function() {
+            this.style.background = "#e8f5e9";
+            this.style.color = "#2e7d32";
+            this.style.borderColor = "#a5d6a7";
+            this.innerHTML = "✔ In Cart";
+          };
+        } else {
+          btn.className = "button button-primary";
+          btn.style.cssText = "width: 100%; border-radius: 8px; font-weight: 700; padding: 0.45rem; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;";
+          btn.innerHTML = "🛒 Add to Cart";
+          btn.onmouseover = null;
+          btn.onmouseout = null;
+        }
+      }
+
+      function changeSlide(itemId, direction, event) {
+        if (event) event.stopPropagation();
+        const wrapper = document.getElementById(`wrapper-${itemId}`);
+        if (!wrapper) return;
+        
+        const samples = JSON.parse(wrapper.getAttribute("data-samples") || "[]");
+        let img = document.getElementById(`img-${itemId}`);
+        const counter = document.getElementById(`counter-${itemId}`);
+        
+        let currentIndex = parseInt(img.getAttribute("data-index") || "0");
+        currentIndex = (currentIndex + direction + samples.length) % samples.length;
+        
+        const nextSrc = samples[currentIndex];
+        const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(nextSrc);
+
+        if (isVideo && img.tagName !== 'VIDEO') {
+          const video = document.createElement('video');
+          video.id = `img-${itemId}`;
+          video.src = nextSrc;
+          video.controls = true;
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.style.cssText = "width:100%; height:100%; object-fit:cover;";
+          img.replaceWith(video);
+        } else if (!isVideo && img.tagName !== 'IMG') {
+          const newImg = document.createElement('img');
+          newImg.id = `img-${itemId}`;
+          newImg.src = nextSrc;
+          newImg.alt = "sample";
+          newImg.loading = "lazy";
+          img.replaceWith(newImg);
+        } else {
+          img.src = nextSrc;
+        }
+
+        const currentMedia = document.getElementById(`img-${itemId}`);
+        if (currentMedia) currentMedia.setAttribute("data-index", currentIndex);
+        if (counter) counter.textContent = `${currentIndex + 1}/${samples.length}`;
+      }
+
+      loadSamples();
+    </script>
+  <script src="cart-manager.js"></script>
+</body>
+</html>

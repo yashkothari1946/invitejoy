@@ -1,0 +1,36 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#100E0C"/>
+      <stop offset="1" stop-color="#0A0908"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="180" y1="120" x2="1040" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#201B17"/>
+      <stop offset="1" stop-color="#15110E"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="160" y1="120" x2="1040" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0D4A0"/>
+      <stop offset="1" stop-color="#BD8F52"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="56" fill="url(#bg)"/>
+  <rect x="120" y="110" width="960" height="680" rx="36" fill="url(#panel)" stroke="rgba(247,239,230,0.14)" stroke-width="2"/>
+  <rect x="160" y="150" width="880" height="70" rx="18" fill="#F7EFE6" fill-opacity="0.05"/>
+  <circle cx="210" cy="185" r="12" fill="#D8B36F"/>
+  <circle cx="250" cy="185" r="12" fill="#B97A6A"/>
+  <circle cx="290" cy="185" r="12" fill="#F7EFE6" fill-opacity="0.45"/>
+  <rect x="360" y="174" width="180" height="20" rx="10" fill="#F7EFE6" fill-opacity="0.35"/>
+  <rect x="160" y="250" width="360" height="220" rx="28" fill="#F7EFE6" fill-opacity="0.06"/>
+  <rect x="548" y="250" width="492" height="220" rx="28" fill="#F7EFE6" fill-opacity="0.06"/>
+  <rect x="160" y="500" width="300" height="220" rx="28" fill="#F7EFE6" fill-opacity="0.06"/>
+  <rect x="488" y="500" width="552" height="220" rx="28" fill="#F7EFE6" fill-opacity="0.06"/>
+  <path d="M210 380L300 330L380 360L460 310" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M210 620H390" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M210 660H330" stroke="#F7EFE6" stroke-opacity="0.5" stroke-width="10" stroke-linecap="round"/>
+  <rect x="590" y="300" width="340" height="28" rx="14" fill="#D8B36F" fill-opacity="0.7"/>
+  <rect x="590" y="348" width="280" height="18" rx="9" fill="#F7EFE6" fill-opacity="0.35"/>
+  <rect x="590" y="382" width="220" height="18" rx="9" fill="#F7EFE6" fill-opacity="0.25"/>
+  <circle cx="660" cy="610" r="76" stroke="url(#gold)" stroke-width="12"/>
+  <path d="M660 560V610L710 640" stroke="url(#gold)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="160" y="790" fill="#F7EFE6" fill-opacity="0.9" font-family="Cormorant Garamond, serif" font-size="44" font-weight="700">Wedding guest dashboard</text>
+</svg>

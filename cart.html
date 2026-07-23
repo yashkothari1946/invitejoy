@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selected Designs & Proposal | Vybtek Wedding</title>
+    <meta
+      name="description"
+      content="Review your selected wedding design services, calculate delivery timelines, and download your proposal."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+      .cart-item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(255,255,255,0.7);
+        border: 1px solid rgba(44,42,41,0.1);
+        border-radius: 12px;
+        margin-bottom: 0.75rem;
+      }
+      .cart-item-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .cart-item-info img {
+        width: 56px;
+        height: 56px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid rgba(44,42,41,0.15);
+      }
+      .remove-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+      @media print {
+        header, nav, .header-cart-btn, footer, .button, button, .remove-btn, #invFormToggleIcon, .quote-note, .page-hero {
+          display: none !important;
+        }
+        body, main {
+          background: #ffffff !important;
+          color: #000000 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .calculator-layout {
+          display: block !important;
+        }
+        .quote-panel {
+          margin-top: 1.5rem !important;
+        }
+        textarea, input {
+          border: none !important;
+          background: transparent !important;
+          resize: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="page-shell">
+    <header class="topbar">
+      <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
+        <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
+        <div>
+          <h1 style="font-size: 1.15rem; margin: 0; color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; line-height: 1.1;">Vybtek Studio</h1>
+          <p class="eyebrow" style="margin: 0.15rem 0 0 0; font-size: 0.72rem; color: var(--gold-strong); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;">Wedding Creatives</p>
+        </div>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="packages.html">Packages</a>
+        <a href="portfolio.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a class="button button-primary header-cart-btn" href="cart.html" style="font-size: 0.85rem; padding: 0.45rem 1.1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;">🛒 Cart <span class="cart-badge-count">0</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero section">
+        <div class="page-hero-copy">
+          <p class="eyebrow">Design Selection & Proposal</p>
+          <h2>Review your selected deliverables and download proposal.</h2>
+          <p class="lead">
+            Review your selected design deliverables, provide custom instructions, fill in your wedding details, and download your proposal PDF or send directly to studio.
+          </p>
+        </div>
+        <div class="page-hero-graphic">
+          <img src="graphics/website-dashboard.jpg" alt="Checkout dashboard visual" />
+        </div>
+      </section>
+
+      <section id="calculator" class="section calculator-section">
+        <div class="calculator-layout">
+          <div class="calculator-panel">
+            <div class="calc-header">
+              <div>
+                <span class="calc-badge">Selected Items</span>
+                <h3>Your Design Deliverables</h3>
+              </div>
+              <button class="button button-secondary" onclick="clearAllCart()">Clear Selection</button>
+            </div>
+
+            <div id="cartItemsContainer" style="margin-bottom: 1.5rem;"></div>
+
+            <div id="websitePagesGroup" class="admin-input-group" style="display: none; background: rgba(184, 134, 11, 0.1); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
+              <label style="font-weight: 700;">Additional Website Pages (Base single-page included)</label>
+              <p style="font-size: 0.85rem; color: var(--muted); margin: 0.25rem 0 0.5rem 0;">Specify extra pages needed beyond the base single page layout</p>
+              <input type="number" id="websitePages" min="0" value="0" style="width: 100%; max-width: 200px; padding: 0.5rem; border-radius: 8px; border: 1px solid rgba(44,42,41,0.2);" oninput="renderCartSummary()">
+            </div>
+
+            <div style="text-align: center; margin-top: 1.5rem;">
+              <a href="services.html" class="button button-ghost">+ Add More Services</a>
+            </div>
+          </div>
+
+          <aside id="quotePanel" class="quote-panel">
+            <div class="quote-card">
+              <div class="quote-topline">
+                <span class="calc-badge">Proposal summary</span>
+                <span id="selectedCount">0 items</span>
+              </div>
+              <div class="quote-breakdown">
+                <div>
+                  <span>Total Delivery Time</span>
+                  <strong id="deliveryTime" style="color: var(--gold-strong);">-</strong>
+                </div>
+              </div>
+
+              <div class="customer-info-form" style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.8); border-radius: 12px; border: 1px solid rgba(44,42,41,0.1);">
+                <h4 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 700;">Customer Contact Details</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <input type="text" id="custName" placeholder="Full Name *" required style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(44,42,41,0.2); font-size: 0.85rem;">
+                  <input type="email" id="custEmail" placeholder="Email Address *" required style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(44,42,41,0.2); font-size: 0.85rem;">
+                  <input type="tel" id="custPhone" placeholder="Phone Number / WhatsApp *" required style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(44,42,41,0.2); font-size: 0.85rem;">
+                  <input type="date" id="custEventDate" style="padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(44,42,41,0.2); font-size: 0.85rem;" title="Wedding / Event Date">
+                </div>
+              </div>
+
+              <!-- 5-PAGE E-WEDDING INVITATION CONTENT FORM & FILE UPLOAD -->
+              <div class="invitation-details-block" style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.9); border-radius: 12px; border: 1.5px solid var(--gold); box-shadow: 0 4px 15px rgba(184,134,11,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleInvitationForm()">
+                  <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700; color: var(--gold-strong); display: flex; align-items: center; gap: 0.4rem;">
+                    <span>💌</span> E-Wedding Invitation Content (5-Page Form or PDF Upload)
+                  </h4>
+                  <span id="invFormToggleIcon" style="font-weight: bold; color: var(--gold-strong); font-size: 0.85rem;">[+] Expand Form</span>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--muted); margin: 0.35rem 0 0.75rem;">Fill out the 5-page invitation details online OR upload your prepared PDF / Word document.</p>
+
+                <!-- OPTION A: FILE UPLOAD -->
+                <div style="margin-bottom: 0.75rem; background: rgba(184,134,11,0.06); padding: 0.75rem; border-radius: 8px; border: 1px dashed var(--gold);">
+                  <label style="font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 0.35rem; color: var(--gold-strong);">📎 Upload Prepared PDF / Word Document / Images</label>
+                  <input type="file" id="invitationDocFile" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" style="width: 100%; font-size: 0.8rem;">
+                </div>
+
+                <!-- OPTION B: 5-PAGE CONTENT FORM -->
+                <div id="invitationFormBody" style="display: none; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; border-top: 1px solid rgba(44,42,41,0.1); padding-top: 0.75rem;">
+                  
+                  <!-- PAGE 1 -->
+                  <div style="background: rgba(44,42,41,0.03); padding: 0.75rem; border-radius: 8px;">
+                    <strong style="font-size: 0.85rem; color: var(--gold-strong); display: block; margin-bottom: 0.4rem;">Page 1: Title & Overview</strong>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                      <input type="text" id="invGroomBride" placeholder="Groom & Bride Names (e.g. Rahul & Priya)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invHashtag" placeholder="# Wedding Hashtag (e.g. #RahulWedsPriya)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invEventDate" placeholder="Date of Event (e.g. 12th Dec 2026)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invLocation" placeholder="Location / Venue City (e.g. Udaipur, Rajasthan)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                    </div>
+                  </div>
+
+                  <!-- PAGE 2 -->
+                  <div style="background: rgba(44,42,41,0.03); padding: 0.75rem; border-radius: 8px;">
+                    <strong style="font-size: 0.85rem; color: var(--gold-strong); display: block; margin-bottom: 0.4rem;">Page 2: Invocation & Family Lineage</strong>
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                      <input type="text" id="invHeaderNote" value="Shri Ganeshay Namah" placeholder="Invocation Note (e.g. Shri Ganeshay Namah)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invParentsName" placeholder="Bride / Groom Parents' Names (Cordially inviting)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invBrideGrandparents" placeholder="Bride Name & (GR/D/O Grandparents Name)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invGroomGrandparents" placeholder="Groom Name & (GR/S/O Grandparents Name)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invAwaitingPresence" placeholder="Awaiting Your Presence (Special Family Member Names)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                    </div>
+                  </div>
+
+                  <!-- PAGE 3 -->
+                  <div style="background: rgba(44,42,41,0.03); padding: 0.75rem; border-radius: 8px;">
+                    <strong style="font-size: 0.85rem; color: var(--gold-strong); display: block; margin-bottom: 0.4rem;">Page 3: Day 1 Schedule (Check-in, Mehendi, High Tea, Sangeet)</strong>
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                      <input type="text" id="invDay1Date" placeholder="Day 1 Date (e.g. Friday, 11th Dec 2026)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <textarea id="invDay1Details" rows="3" placeholder="Hotel Check-in & Address, Mehendi, High Tea, Sangeet & Ring Ceremony timings" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- PAGE 4 -->
+                  <div style="background: rgba(44,42,41,0.03); padding: 0.75rem; border-radius: 8px;">
+                    <strong style="font-size: 0.85rem; color: var(--gold-strong); display: block; margin-bottom: 0.4rem;">Page 4: Day 2 Main Ceremony Schedule (Haldi, Baraat, Phere, Dinner)</strong>
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                      <input type="text" id="invDay2Date" placeholder="Day 2 Date (e.g. Saturday, 12th Dec 2026)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <textarea id="invDay2Details" rows="3" placeholder="Ganesh Pujan, Haldi, Baraat Procession + High Tea, Sangam (Phere/Hast Milap), Dinner timings" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- PAGE 5 -->
+                  <div style="background: rgba(44,42,41,0.03); padding: 0.75rem; border-radius: 8px;">
+                    <strong style="font-size: 0.85rem; color: var(--gold-strong); display: block; margin-bottom: 0.4rem;">Page 5: Thank You, RSVP & Notes</strong>
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                      <textarea id="invThankYouNote" rows="2" placeholder="Thank You Message (e.g. Thank you for being part of our special day...)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+                      <input type="text" id="invFamilyName" placeholder="Family Name (e.g. Sharma Family)" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <input type="text" id="invRsvp" placeholder="R. S. V. P Details & Contact Numbers" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;">
+                      <textarea id="invCustomNote" rows="2" placeholder="Additional Notes / Custom Requirements" style="padding: 0.4rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="quote-actions" style="flex-direction: column; gap: 0.75rem;">
+                <button class="button button-primary" id="downloadPdfBtn" style="width: 100%; font-size: 1rem; padding: 0.85rem; background: linear-gradient(135deg, #7a5a07, #b8860b); border-color: #b8860b; color: #ffffff; font-weight: 700;" onclick="generateDirectPdf()">📥 Download PDF Proposal (.pdf)</button>
+                <button class="button button-secondary" id="submitInquiryBtn" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;" onclick="submitLocalInquiry()">📥 Save Order Inquiry to Studio</button>
+              </div>
+              <div class="quote-note">
+                <p>
+                  <strong>Revision Policy:</strong> Maximum 2 revisions are included for all design deliverables to ensure complete satisfaction.
+                </p>
+                <p>
+                  Estimated delivery times are strictly based on processing capacity (5 graphics/day, 3 days/video, min 5 days for websites).
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Selected Deliverables & Design Proposal</p>
+      <p>Bespoke Wedding Creatives & Stationary Design Studio</p>
+      <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
+    </footer>
+
+    <script src="nav.js"></script>
+    <script src="cart-manager.js"></script>
+    <script>
+      const currency = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0,
+      });
+
+      let currentGrandTotal = 0;
+
+      function renderCartItems() {
+        const cart = CartManager.getCart();
+        const container = document.getElementById("cartItemsContainer");
+        container.innerHTML = "";
+
+        if (cart.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--muted);">
+              <p style="font-size: 1.1rem; margin-bottom: 1rem;">Your cart is empty.</p>
+              <a href="services.html" class="button button-primary">Browse Services</a>
+            </div>
+          `;
+          document.getElementById("websitePagesGroup").style.display = "none";
+          renderCartSummary();
+          return;
+        }
+
+        let hasWebsite = false;
+
+        cart.forEach(item => {
+          if (item.type === "website") hasWebsite = true;
+          const imgSrc = item.sample || (item.samples ? item.samples[0] : "graphics/website-dashboard.jpg");
+          const qty = item.quantity || 1;
+          const lineTotal = item.price * qty;
+
+          const card = document.createElement("div");
+          card.style.cssText = "background: rgba(255,255,255,0.7); border: 1px solid rgba(44,42,41,0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; transition: all 0.2s ease;";
+          
+          card.innerHTML = `
+            <div class="cart-item-row" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+              <div class="cart-item-info" style="display: flex; align-items: center; gap: 0.85rem;">
+                <img src="${imgSrc}" alt="${item.name}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(44,42,41,0.15);">
+                <div>
+                  <strong style="font-size: 1.05rem; display: block; color: var(--text);">${item.name}</strong>
+                  <span style="font-size: 0.8rem; color: var(--gold-strong); font-weight: 600;">Custom Deliverable</span>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
+                <div style="display: inline-flex; align-items: center; background: rgba(44,42,41,0.06); border-radius: 6px; border: 1px solid rgba(44,42,41,0.15); overflow: hidden;">
+                  <button onclick="changeCartQty('${item.id}', -1)" style="border:none; background:none; padding: 0.25rem 0.55rem; cursor:pointer; font-weight:bold; font-size: 0.95rem; color: var(--text);">-</button>
+                  <span style="padding: 0 0.55rem; font-size: 0.88rem; font-weight: 700; color: var(--text); min-width: 20px; text-align: center;">${qty}</span>
+                  <button onclick="changeCartQty('${item.id}', 1)" style="border:none; background:none; padding: 0.25rem 0.55rem; cursor:pointer; font-weight:bold; font-size: 0.95rem; color: var(--text);">+</button>
+                </div>
+                <button class="remove-btn" onclick="removeCartItem('${item.id}')">Remove</button>
+              </div>
+            </div>
+
+            <!-- QUANTITY & VARIATION NOTES INPUT -->
+            <div style="margin-top: 0.75rem; border-top: 1px dashed rgba(44,42,41,0.12); padding-top: 0.65rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.35rem;">
+                <label style="font-size: 0.82rem; font-weight: 700; color: var(--gold-strong); display: flex; align-items: center; gap: 0.35rem;">
+                  📝 Notes / Instructions for ${qty > 1 ? `this item (${qty} quantities)` : 'this item'}:
+                </label>
+                ${qty > 1 ? `<span style="font-size: 0.73rem; background: rgba(184,134,11,0.12); color: var(--gold-strong); padding: 0.15rem 0.5rem; border-radius: 99px; font-weight: 700;">💡 Tip: You can specify notes for Qty 1 vs Qty 2 here</span>` : ''}
+              </div>
+              <textarea 
+                id="item-notes-${item.id}"
+                rows="2" 
+                placeholder="${qty > 1 ? `e.g. Qty 1: Groom side family details (Hotel Taj)\nQty 2: Bride side family details (Hotel Marriot)` : 'Add any custom names, venue text, or design instructions for this deliverable...'}"
+                style="width: 100%; padding: 0.5rem 0.75rem; font-size: 0.82rem; border-radius: 8px; border: 1px solid rgba(44,42,41,0.18); outline: none; resize: vertical; font-family: inherit;"
+                oninput="saveItemNote('${item.id}', this.value)"
+              >${item.notes || ''}</textarea>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+        document.getElementById("websitePagesGroup").style.display = hasWebsite ? "block" : "none";
+        renderCartSummary();
+      }
+
+      function saveItemNote(itemId, text) {
+        CartManager.updateNotes(itemId, text);
+      }
+
+      function changeCartQty(itemId, change) {
+        const cart = CartManager.getCart();
+        const item = cart.find(i => i.id === itemId);
+        if (item) {
+          const newQty = (item.quantity || 1) + change;
+          CartManager.updateQuantity(itemId, newQty);
+          renderCartItems();
+        }
+      }
+
+      function removeCartItem(itemId) {
+        CartManager.removeItem(itemId);
+        renderCartItems();
+      }
+
+      function clearAllCart() {
+        CartManager.clearCart();
+        renderCartItems();
+      }
+
+      let activeCoupon = null;
+
+      function getCalculatedSubtotal() {
+        const cart = CartManager.getCart();
+        let subtotal = 0;
+        let hasWebsite = false;
+        cart.forEach(item => {
+          subtotal += (item.price * (item.quantity || 1));
+          if (item.type === "website") hasWebsite = true;
+        });
+        const extraPagesInput = document.getElementById("websitePages");
+        const extraPages = hasWebsite ? (parseInt(extraPagesInput.value) || 0) : 0;
+        subtotal += (extraPages * 2000);
+        return subtotal;
+      }
+
+      let appCoupons = [
+        { code: "VYBTEK10", discountType: "percent", value: 10, minSubtotal: 0, description: "10% OFF" },
+        { code: "WEDDING15", discountType: "percent", value: 15, minSubtotal: 15000, description: "15% OFF" },
+        { code: "ROYAL20", discountType: "percent", value: 20, minSubtotal: 30000, description: "20% OFF" },
+        { code: "WELCOME5000", discountType: "flat", value: 5000, minSubtotal: 25000, description: "Flat ₹5,000 OFF" }
+      ];
+
+      async function fetchCoupons() {
+        try {
+          const res = await fetch("/api/data");
+          if (res.ok) {
+            const data = await res.json();
+            if (data.coupons && data.coupons.length > 0) {
+              appCoupons = data.coupons;
+            }
+          }
+        } catch(e) {
+          console.error("Error loading coupons", e);
+        }
+      }
+
+      fetchCoupons();
+
+      async function applyCouponCode() {
+        const input = document.getElementById("couponInput");
+        const msgEl = document.getElementById("couponStatusMsg");
+        const code = (input.value || "").trim().toUpperCase();
+
+        if (!code) {
+          activeCoupon = null;
+          msgEl.textContent = "";
+          renderCartSummary();
+          return;
+        }
+
+        await fetchCoupons();
+        const found = appCoupons.find(c => c.code === code);
+        if (!found) {
+          activeCoupon = null;
+          msgEl.style.color = "#e74c3c";
+          msgEl.textContent = "❌ Invalid Coupon Code.";
+          renderCartSummary();
+          return;
+        }
+
+        const currentSubtotal = getCalculatedSubtotal();
+        if (currentSubtotal < (found.minSubtotal || 0)) {
+          activeCoupon = null;
+          msgEl.style.color = "#e74c3c";
+          msgEl.textContent = `❌ Requires minimum subtotal of ₹${(found.minSubtotal || 0).toLocaleString('en-IN')}.`;
+          renderCartSummary();
+          return;
+        }
+
+        activeCoupon = found;
+        const descText = found.description || found.desc || (found.discountType === "percent" ? `${found.value}% OFF` : `Flat ₹${found.value} OFF`);
+        msgEl.style.color = "#2e7d32";
+        msgEl.textContent = `🎉 Coupon "${found.code}" applied! (${descText})`;
+        renderCartSummary();
+      }
+
+      function renderCartSummary() {
+        const cart = CartManager.getCart();
+        let totalGraphics = 0;
+        let totalVideos = 0;
+        let hasWebsite = false;
+
+        cart.forEach(item => {
+          const qty = item.quantity || 1;
+          if (item.type === "graphic") totalGraphics += qty;
+          if (item.type === "video") totalVideos += qty;
+          if (item.type === "website") hasWebsite = true;
+        });
+
+        const extraPagesInput = document.getElementById("websitePages");
+        const extraPages = hasWebsite ? (parseInt(extraPagesInput.value) || 0) : 0;
+
+        let graphicDays = Math.ceil(totalGraphics / 5);
+        let videoDays = totalVideos * 3;
+        let websiteDays = hasWebsite ? 5 : 0;
+        let totalDays = graphicDays + videoDays + websiteDays;
+
+        const totalItemsCount = cart.reduce((sum, i) => sum + (i.quantity || 1), 0);
+
+        const countEl = document.getElementById("selectedCount");
+        if (countEl) countEl.textContent = totalItemsCount + " item(s)";
+        
+        const deliveryEl = document.getElementById("deliveryTime");
+        if (deliveryEl) deliveryEl.textContent = totalDays > 0 ? `${totalDays} Days (Estimated)` : "-";
+      }
+
+      function toggleInvitationForm() {
+        const body = document.getElementById("invitationFormBody");
+        const icon = document.getElementById("invFormToggleIcon");
+        if (body.style.display === "none" || !body.style.display) {
+          body.style.display = "flex";
+          icon.textContent = "[-] Collapse Form";
+        } else {
+          body.style.display = "none";
+          icon.textContent = "[+] Expand Form";
+        }
+      }
+
+      async function generateDirectPdf() {
+        const cart = CartManager.getCart();
+        if (cart.length === 0) {
+          alert("Your selection is empty. Please add design services first.");
+          return;
+        }
+
+        const btn = document.getElementById("downloadPdfBtn");
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "⏳ Generating PDF Document...";
+        }
+
+        const custName = (document.getElementById("custName")?.value || "Valued Client").trim();
+        const custEmail = (document.getElementById("custEmail")?.value || "N/A").trim();
+        const custPhone = (document.getElementById("custPhone")?.value || "N/A").trim();
+        const custEventDate = (document.getElementById("custEventDate")?.value || "N/A").trim();
+        const deliveryTime = document.getElementById("deliveryTime")?.textContent || "-";
+
+        const pdfWrapper = document.createElement("div");
+        pdfWrapper.style.cssText = "padding: 30px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #2c2a29; background: #ffffff; width: 750px;";
+
+        let itemsTableHtml = cart.map((item, idx) => {
+          const qty = item.quantity || 1;
+          const notesText = item.notes ? `<div style="font-size: 11px; color: #b8860b; margin-top: 4px; font-style: italic;">📝 Notes: ${item.notes}</div>` : '';
+          return `
+            <tr style="border-bottom: 1px solid #eeeeee;">
+              <td style="padding: 10px 8px; font-size: 13px;">
+                <strong>${idx + 1}. ${item.name}</strong>
+                ${notesText}
+              </td>
+              <td style="padding: 10px 8px; font-size: 13px; text-align: center; font-weight: bold;">${qty}</td>
+              <td style="padding: 10px 8px; font-size: 13px; text-align: right; text-transform: capitalize;">${item.type || 'Graphic'}</td>
+            </tr>
+          `;
+        }).join('');
+
+        const groomBride = (document.getElementById("invGroomBride")?.value || "").trim();
+        const hashtag = (document.getElementById("invHashtag")?.value || "").trim();
+        const invDate = (document.getElementById("invEventDate")?.value || "").trim();
+        const invLocation = (document.getElementById("invLocation")?.value || "").trim();
+        
+        let invContentBlock = "";
+        if (groomBride || hashtag || invDate || invLocation) {
+          invContentBlock = `
+            <div style="margin-top: 20px; padding: 12px; background: #fcf9f2; border: 1px dashed #b8860b; border-radius: 6px;">
+              <h4 style="margin: 0 0 6px 0; color: #b8860b; font-size: 13px;">💌 E-Wedding Invitation Details</h4>
+              <div style="font-size: 12px; line-height: 1.5;">
+                ${groomBride ? `<div><strong>Couple:</strong> ${groomBride}</div>` : ''}
+                ${hashtag ? `<div><strong>Hashtag:</strong> ${hashtag}</div>` : ''}
+                ${invDate ? `<div><strong>Date:</strong> ${invDate}</div>` : ''}
+                ${invLocation ? `<div><strong>Location:</strong> ${invLocation}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        pdfWrapper.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #b8860b; padding-bottom: 12px; margin-bottom: 20px;">
+            <div>
+              <h1 style="margin: 0; font-size: 22px; color: #2c2a29; font-family: Georgia, serif;">VYBTEK STUDIO</h1>
+              <p style="margin: 3px 0 0 0; font-size: 11px; color: #b8860b; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">Wedding Creatives & Stationary Proposal</p>
+            </div>
+            <div style="text-align: right; font-size: 11px; color: #777777;">
+              <div><strong>Proposal ID:</strong> PRO-${Date.now().toString().slice(-6)}</div>
+              <div><strong>Date:</strong> ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+            </div>
+          </div>
+
+          <div style="background: #f8f8f8; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 12px; display: flex; justify-content: space-between;">
+            <div>
+              <strong>Client Name:</strong> ${custName}<br>
+              <strong>Email:</strong> ${custEmail}
+            </div>
+            <div style="text-align: right;">
+              <strong>Phone:</strong> ${custPhone}<br>
+              <strong>Event Date:</strong> ${custEventDate}
+            </div>
+          </div>
+
+          <h3 style="font-size: 14px; margin: 0 0 10px 0; color: #2c2a29;">Selected Design Deliverables</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="background: #2c2a29; color: #ffffff;">
+                <th style="padding: 8px; text-align: left; font-size: 12px;">Deliverable Name</th>
+                <th style="padding: 8px; text-align: center; font-size: 12px; width: 70px;">Quantity</th>
+                <th style="padding: 8px; text-align: right; font-size: 12px; width: 100px;">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsTableHtml}
+            </tbody>
+          </table>
+
+          ${invContentBlock}
+
+          <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #dddddd; font-size: 11px; color: #555555; display: flex; justify-content: space-between;">
+            <div>
+              <strong>Estimated Processing Time:</strong> ${deliveryTime}<br>
+              <strong>Revision Policy:</strong> 2 Free Revisions included per deliverable.
+            </div>
+            <div style="text-align: right; color: #b8860b; font-weight: bold;">
+              Vybtek Studio • www.vybtek.com
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(pdfWrapper);
+
+        const filename = `Vybtek_Proposal_${custName.replace(/\s+/g, '_') || 'Client'}.pdf`;
+
+        const opt = {
+          margin:       0.3,
+          filename:     filename,
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2, useCORS: true },
+          jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        try {
+          if (typeof html2pdf !== 'undefined') {
+            await html2pdf().set(opt).from(pdfWrapper).save();
+          } else {
+            window.print();
+          }
+        } catch(err) {
+          console.error("PDF generation error, fallback to print", err);
+          window.print();
+        } finally {
+          document.body.removeChild(pdfWrapper);
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "📥 Download PDF Proposal (.pdf)";
+          }
+        }
+      }
+
+      async function submitLocalInquiry() {
+        const cart = CartManager.getCart();
+        if (cart.length === 0) {
+          alert("Your cart is empty. Please add services from the Services page first.");
+          return;
+        }
+
+        const name = document.getElementById("custName").value.trim();
+        const email = document.getElementById("custEmail").value.trim();
+        const phone = document.getElementById("custPhone").value.trim();
+        const eventDate = document.getElementById("custEventDate").value;
+
+        if (!name || !email || !phone) {
+          alert("Please fill in your Name, Email, and Phone Number before saving your inquiry.");
+          return;
+        }
+
+        const submitInquiryBtn = document.getElementById("submitInquiryBtn");
+        submitInquiryBtn.disabled = true;
+        submitInquiryBtn.textContent = "Saving Inquiry...";
+
+        let invitationDocPath = "";
+        const docInput = document.getElementById("invitationDocFile");
+        if (docInput && docInput.files && docInput.files.length > 0) {
+          const file = docInput.files[0];
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          try {
+            const uploadRes = await fetch("/api/upload", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ filename: file.name, base64 })
+            });
+            const uploadData = await uploadRes.json();
+            if (uploadData.path) invitationDocPath = uploadData.path;
+          } catch(err) {
+            console.error("Error uploading document file", err);
+          }
+        }
+
+        const invitationContent = {
+          page1: {
+            groomBride: (document.getElementById("invGroomBride")?.value || "").trim(),
+            hashtag: (document.getElementById("invHashtag")?.value || "").trim(),
+            eventDate: (document.getElementById("invEventDate")?.value || "").trim(),
+            location: (document.getElementById("invLocation")?.value || "").trim()
+          },
+          page2: {
+            headerNote: (document.getElementById("invHeaderNote")?.value || "").trim(),
+            parentsName: (document.getElementById("invParentsName")?.value || "").trim(),
+            brideGrandparents: (document.getElementById("invBrideGrandparents")?.value || "").trim(),
+            groomGrandparents: (document.getElementById("invGroomGrandparents")?.value || "").trim(),
+            awaitingPresence: (document.getElementById("invAwaitingPresence")?.value || "").trim()
+          },
+          page3: {
+            day1Date: (document.getElementById("invDay1Date")?.value || "").trim(),
+            day1Details: (document.getElementById("invDay1Details")?.value || "").trim()
+          },
+          page4: {
+            day2Date: (document.getElementById("invDay2Date")?.value || "").trim(),
+            day2Details: (document.getElementById("invDay2Details")?.value || "").trim()
+          },
+          page5: {
+            thankYouNote: (document.getElementById("invThankYouNote")?.value || "").trim(),
+            familyName: (document.getElementById("invFamilyName")?.value || "").trim(),
+            rsvp: (document.getElementById("invRsvp")?.value || "").trim(),
+            customNote: (document.getElementById("invCustomNote")?.value || "").trim()
+          }
+        };
+
+        const extraPagesInput = document.getElementById("websitePages");
+        const extraPages = parseInt(extraPagesInput.value) || 0;
+
+        const itemsList = cart.map(i => ({ 
+          name: i.name, 
+          price: i.price, 
+          quantity: i.quantity || 1, 
+          notes: i.notes || "", 
+          totalPrice: i.price * (i.quantity || 1), 
+          type: i.type 
+        }));
+        if (extraPages > 0) {
+          itemsList.push({ name: `Additional Website Pages (${extraPages})`, price: extraPages * 2000, quantity: 1, totalPrice: extraPages * 2000, type: "website_extra" });
+        }
+
+        const orderRecord = {
+          id: "INQ_" + Date.now().toString().slice(-6),
+          timestamp: new Date().toISOString(),
+          customer: { name, email, phone, eventDate: eventDate || "N/A" },
+          items: itemsList,
+          websiteExtraPages: extraPages,
+          invitationContent,
+          invitationDocPath,
+          totalAmount: currentGrandTotal,
+          estimatedDelivery: document.getElementById("deliveryTime").textContent,
+          paymentStatus: "Order Inquiry (Localhost)",
+          status: "New"
+        };
+
+        try {
+          await fetch("/api/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderRecord)
+          });
+
+          submitInquiryBtn.disabled = false;
+          submitInquiryBtn.textContent = "📥 Save Order Inquiry to Studio";
+          alert(`🎉 Order Inquiry Saved Successfully!\n\nInquiry ID: ${orderRecord.id}\nCustomer: ${name}\n\nYour order inquiry has been logged into the Studio Admin Dashboard!`);
+          CartManager.clearCart();
+          renderCartItems();
+        } catch(err) {
+          submitInquiryBtn.disabled = false;
+          submitInquiryBtn.textContent = "📥 Save Order Inquiry to Studio";
+          alert("Error saving inquiry: " + err.message);
+        }
+      }
+
+      async function processCheckout() {
+        const cart = CartManager.getCart();
+        if (cart.length === 0 || currentGrandTotal <= 0) {
+          alert("Your cart is empty. Please add services from the Services page first.");
+          return;
+        }
+
+        const name = document.getElementById("custName").value.trim();
+        const email = document.getElementById("custEmail").value.trim();
+        const phone = document.getElementById("custPhone").value.trim();
+        const eventDate = document.getElementById("custEventDate").value;
+
+        if (!name || !email || !phone) {
+          alert("Please fill in your Name, Email, and Phone Number before ordering.");
+          return;
+        }
+
+        const payNowBtn = document.getElementById("payNowBtn");
+        payNowBtn.disabled = true;
+        payNowBtn.textContent = "Processing Order...";
+
+        // Handle PDF/Doc File Upload if provided
+        let invitationDocPath = "";
+        const docInput = document.getElementById("invitationDocFile");
+        if (docInput && docInput.files && docInput.files.length > 0) {
+          const file = docInput.files[0];
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          try {
+            const uploadRes = await fetch("/api/upload", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ filename: file.name, base64 })
+            });
+            const uploadData = await uploadRes.json();
+            if (uploadData.path) invitationDocPath = uploadData.path;
+          } catch(err) {
+            console.error("Error uploading document file", err);
+          }
+        }
+
+        // Collect 5-Page Invitation Details
+        const invitationContent = {
+          page1: {
+            groomBride: (document.getElementById("invGroomBride")?.value || "").trim(),
+            hashtag: (document.getElementById("invHashtag")?.value || "").trim(),
+            eventDate: (document.getElementById("invEventDate")?.value || "").trim(),
+            location: (document.getElementById("invLocation")?.value || "").trim()
+          },
+          page2: {
+            headerNote: (document.getElementById("invHeaderNote")?.value || "").trim(),
+            parentsName: (document.getElementById("invParentsName")?.value || "").trim(),
+            brideGrandparents: (document.getElementById("invBrideGrandparents")?.value || "").trim(),
+            groomGrandparents: (document.getElementById("invGroomGrandparents")?.value || "").trim(),
+            awaitingPresence: (document.getElementById("invAwaitingPresence")?.value || "").trim()
+          },
+          page3: {
+            day1Date: (document.getElementById("invDay1Date")?.value || "").trim(),
+            day1Details: (document.getElementById("invDay1Details")?.value || "").trim()
+          },
+          page4: {
+            day2Date: (document.getElementById("invDay2Date")?.value || "").trim(),
+            day2Details: (document.getElementById("invDay2Details")?.value || "").trim()
+          },
+          page5: {
+            thankYouNote: (document.getElementById("invThankYouNote")?.value || "").trim(),
+            familyName: (document.getElementById("invFamilyName")?.value || "").trim(),
+            rsvp: (document.getElementById("invRsvp")?.value || "").trim(),
+            customNote: (document.getElementById("invCustomNote")?.value || "").trim()
+          }
+        };
+
+        const extraPagesInput = document.getElementById("websitePages");
+        const extraPages = parseInt(extraPagesInput.value) || 0;
+
+        const itemsList = cart.map(i => ({ 
+          name: i.name, 
+          price: i.price, 
+          quantity: i.quantity || 1, 
+          notes: i.notes || "", 
+          totalPrice: i.price * (i.quantity || 1), 
+          type: i.type 
+        }));
+        if (extraPages > 0) {
+          itemsList.push({ name: `Additional Website Pages (${extraPages})`, price: extraPages * 2000, quantity: 1, totalPrice: extraPages * 2000, type: "website_extra" });
+        }
+
+        try {
+          const res = await fetch("/api/create-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: currentGrandTotal })
+          });
+
+          const orderData = await res.json();
+          
+          const orderRecord = {
+            id: orderData.id || ("ORD_" + Date.now()),
+            timestamp: new Date().toISOString(),
+            customer: { name, email, phone, eventDate: eventDate || "N/A" },
+            items: itemsList,
+            websiteExtraPages: extraPages,
+            invitationContent,
+            invitationDocPath,
+            totalAmount: currentGrandTotal,
+            estimatedDelivery: document.getElementById("deliveryTime").textContent,
+            paymentStatus: orderData.simulated ? "Simulated Paid" : "Pending Payment",
+            status: "New"
+          };
+
+          await fetch("/api/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderRecord)
+          });
+
+          payNowBtn.disabled = false;
+          payNowBtn.textContent = "Pay Now & Order";
+
+          if (orderData.simulated) {
+            alert(`🎉 Order Successfully Placed! (Simulated Mode)\n\nOrder ID: ${orderRecord.id}\nCustomer: ${name}\nTotal Amount: ₹${currentGrandTotal.toLocaleString('en-IN')}\n\nYour order details have been sent to the Admin Dashboard!`);
+            CartManager.clearCart();
+            renderCartItems();
+            return;
+          }
+
+          if (typeof Razorpay !== "undefined") {
+            const options = {
+              key: orderData.key_id,
+              amount: orderData.amount,
+              currency: orderData.currency,
+              name: "Vybtek Wedding Studio",
+              description: "Wedding Design Deliverables Payment",
+              order_id: orderData.id,
+              prefill: { name, email, contact: phone },
+              handler: async function (response) {
+                await fetch("/api/orders/update-status", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ orderId: orderData.id, status: "Paid & Processing" })
+                });
+                alert(`Payment Successful!\n\nPayment ID: ${response.razorpay_payment_id}\nOrder ID: ${response.razorpay_order_id}\n\nYour order is logged in the Admin Dashboard!`);
+                CartManager.clearCart();
+                renderCartItems();
+              },
+              theme: { color: "#b8860b" }
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
+          } else {
+            alert("Razorpay SDK failed to load. Please check your internet connection.");
+          }
+
+        } catch(err) {
+          payNowBtn.disabled = false;
+          payNowBtn.textContent = "Pay Now & Order";
+          alert("Error initiating payment: " + err.message);
+        }
+      }
+
+      renderCartItems();
+    </script>
+  </body>
+</html>

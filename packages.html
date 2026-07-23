@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Packages | Wedding Design Proposal Platform</title>
+    <meta
+      name="description"
+      content="Compare Starter, Premium, and Luxury wedding website packages with included features."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-shell">
+    <header class="topbar">
+      <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
+        <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
+        <div>
+          <h1 style="font-size: 1.15rem; margin: 0; color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; line-height: 1.1;">Vybtek Studio</h1>
+          <p class="eyebrow" style="margin: 0.15rem 0 0 0; font-size: 0.72rem; color: var(--gold-strong); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;">Wedding Creatives</p>
+        </div>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="packages.html">Packages</a>
+        <a href="portfolio.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a class="button button-primary header-cart-btn" href="cart.html" style="font-size: 0.85rem; padding: 0.45rem 1.1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;">🛒 Cart <span class="cart-badge-count">0</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero section">
+        <div class="page-hero-copy">
+          <p class="eyebrow">Website Plans</p>
+          <h2>Three clear packages for couples who want a polished wedding experience online.</h2>
+          <p class="lead">
+            The package page sets expectations early, simplifies decisions, and naturally leads the client to the
+            quotation calculator.
+          </p>
+        </div>
+        <div class="page-hero-graphic">
+          <img src="graphics/website-dashboard.jpg" alt="Wedding website dashboard preview" />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="package-grid">
+          <article class="package-card">
+            <span class="package-label">Graphic Design</span>
+            <h3>À La Carte Assets</h3>
+            <p>Custom Digital & Print Creatives</p>
+            <ul>
+              <li>Logos & Monograms</li>
+              <li>Envelopes & Welcome Cards</li>
+              <li>Signage & Entrance Boards</li>
+              <li>Any digital graphic deliverable</li>
+            </ul>
+          </article>
+          <article class="package-card featured">
+            <span class="package-label">Website</span>
+            <h3>Base Website</h3>
+            <p>Interactive Wedding Website</p>
+            <ul>
+              <li>Single Page Architecture</li>
+              <li>Custom Theme & Typography</li>
+              <li>Mobile-Responsive Layout</li>
+              <li>Event Details & Story</li>
+            </ul>
+          </article>
+          <article class="package-card">
+            <span class="package-label">Add-ons</span>
+            <h3>Extra Pages & Videos</h3>
+            <p>Scale your digital presence</p>
+            <ul>
+              <li>Extra Website Pages & Features</li>
+              <li>Custom Video Animations & Invites</li>
+              <li>Unlimited Revisions Included</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section comparison-section">
+        <div class="section-heading">
+          <p class="eyebrow">How It Works</p>
+          <h2>Build a custom quote based on your exact needs.</h2>
+          <p class="lead" style="margin-top: 1rem; max-width: 600px; margin-inline: auto;">Our platform uses a dynamic calculator. You select the exact graphics, videos, and website pages you need, and the system automatically calculates the cost, applies bulk discounts, adds GST, and estimates the final delivery timeline.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Custom Pricing Model</p>
+      <p>Transparent pricing, live quotations.</p>
+      <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
+    </footer>
+    <script src="nav.js"></script>
+    <script src="cart-manager.js"></script>
+</body>
+</html>

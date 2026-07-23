@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services | Wedding Design Proposal Platform</title>
+    <meta
+      name="description"
+      content="Explore the wedding branding, stationery, signage, and digital invitation services."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-shell">
+    <header class="topbar">
+      <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
+        <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
+        <div>
+          <h1 style="font-size: 1.15rem; margin: 0; color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; line-height: 1.1;">Vybtek Studio</h1>
+          <p class="eyebrow" style="margin: 0.15rem 0 0 0; font-size: 0.72rem; color: var(--gold-strong); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;">Wedding Creatives</p>
+        </div>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="packages.html">Packages</a>
+        <a href="portfolio.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a class="button button-primary header-cart-btn" href="cart.html" style="font-size: 0.85rem; padding: 0.45rem 1.1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;">🛒 Cart <span class="cart-badge-count">0</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero section">
+        <div class="page-hero-copy">
+          <p class="eyebrow">Service Catalog</p>
+          <h2>Browse our luxury design deliverables and add them to your cart.</h2>
+          <p class="lead">
+            Every service is crafted with high-end typography and color harmony. Explore our sample previews and build your custom design order instantly.
+          </p>
+        </div>
+        <div class="page-hero-graphic">
+          <img src="graphics/invitation-crest.jpg" alt="Wedding invitation crest illustration" />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="search-filter-wrapper" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+          
+          <!-- SEARCH BAR -->
+          <div class="services-search-container" style="position: relative; width: 100%; max-width: 600px;">
+            <div style="position: relative; display: flex; align-items: center;">
+              <svg style="position: absolute; left: 1.1rem; color: var(--gold-strong); pointer-events: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input 
+                type="text" 
+                id="serviceSearchInput" 
+                placeholder="Search services, stationery, signage, menus, videos..." 
+                oninput="handleSearchInput()"
+                style="width: 100%; padding: 0.9rem 2.8rem 0.9rem 3.2rem; font-size: 1rem; border-radius: 999px; border: 1.5px solid rgba(184, 134, 11, 0.3); background: rgba(255, 255, 255, 0.85); box-shadow: 0 4px 20px rgba(0,0,0,0.04); color: var(--text); outline: none; transition: all 0.25s ease;"
+                onfocus="this.style.borderColor='var(--gold)'; this.style.boxShadow='0 6px 24px rgba(184, 134, 11, 0.15)';"
+                onblur="this.style.borderColor='rgba(184, 134, 11, 0.3)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.04)';"
+              >
+              <button 
+                id="clearSearchBtn" 
+                onclick="clearSearch()" 
+                style="display: none; position: absolute; right: 1rem; background: none; border: none; font-size: 1.2rem; color: var(--muted); cursor: pointer; padding: 0.25rem; line-height: 1; border-radius: 50%;"
+                title="Clear search"
+              >&times;</button>
+            </div>
+            <div id="searchResultsCount" style="margin-top: 0.5rem; margin-left: 1.2rem; font-size: 0.85rem; color: var(--muted); font-weight: 600; display: none;"></div>
+          </div>
+
+          <!-- CATEGORY FILTER BAR -->
+          <div id="categoryFilterBar" style="display: flex; gap: 0.75rem; flex-wrap: wrap;"></div>
+        </div>
+
+        <div id="servicesContainer" style="display: flex; flex-direction: column; gap: 3.5rem;"></div>
+      </section>
+    </main>
+
+    <!-- LIGHTBOX FULLSCREEN MODAL -->
+    <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+      <div class="lightbox-content" onclick="event.stopPropagation()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav-btn prev" onclick="lightboxNav(-1)">&lsaquo;</button>
+        <div id="lightboxMediaBox" style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
+          <img id="lightboxImg" src="" alt="Full resolution view">
+        </div>
+        <button class="lightbox-nav-btn next" onclick="lightboxNav(1)">&rsaquo;</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Service catalog</p>
+      <p>Branding, invitations, stationery, signage, and digital guest experiences.</p>
+      <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
+    </footer>
+
+    <script src="nav.js"></script>
+    <script src="cart-manager.js"></script>
+    <script>
+      let appCatalog = [];
+      let currentSearchQuery = "";
+      let currentSelectedCatId = "all";
+
+      async function loadServices() {
+        try {
+          const res = await fetch("/api/data");
+          if (res.ok) {
+            const data = await res.json();
+            appCatalog = data.categories || [];
+            renderCategoryFilterPills();
+            renderServices();
+          }
+        } catch(e) {
+          console.error("Error loading catalog", e);
+        }
+      }
+
+      function renderCategoryFilterPills() {
+        const filterBar = document.getElementById("categoryFilterBar");
+        if (!filterBar) return;
+
+        const activeCategories = appCatalog.filter(cat => cat.active !== false);
+        filterBar.innerHTML = `<button class="filter-btn ${currentSelectedCatId === 'all' ? 'active' : ''}" onclick="selectCategory('all')">All Categories</button>`;
+        activeCategories.forEach(cat => {
+          filterBar.innerHTML += `<button class="filter-btn ${currentSelectedCatId === cat.id ? 'active' : ''}" onclick="selectCategory('${cat.id}')">${cat.name}</button>`;
+        });
+      }
+
+      function selectCategory(catId) {
+        currentSelectedCatId = catId;
+        renderCategoryFilterPills();
+        renderServices();
+      }
+
+      function handleSearchInput() {
+        const input = document.getElementById("serviceSearchInput");
+        const clearBtn = document.getElementById("clearSearchBtn");
+        currentSearchQuery = input.value.trim().toLowerCase();
+        
+        if (clearBtn) {
+          clearBtn.style.display = currentSearchQuery ? "block" : "none";
+        }
+
+        renderServices();
+      }
+
+      function clearSearch() {
+        const input = document.getElementById("serviceSearchInput");
+        if (input) input.value = "";
+        currentSearchQuery = "";
+        document.getElementById("clearSearchBtn").style.display = "none";
+        renderServices();
+      }
+
+      function renderServices() {
+        const container = document.getElementById("servicesContainer");
+        const resultsCountEl = document.getElementById("searchResultsCount");
+        container.innerHTML = "";
+
+        const activeCategories = appCatalog.filter(cat => cat.active !== false);
+        const categoriesToFilter = currentSelectedCatId === "all" ? activeCategories : activeCategories.filter(c => c.id === currentSelectedCatId);
+        
+        let totalMatchingProducts = 0;
+
+        categoriesToFilter.forEach((cat) => {
+          const matchingItems = cat.items.filter(item => {
+            if (item.active === false) return false;
+            if (!currentSearchQuery) return true;
+            const nameMatch = item.name.toLowerCase().includes(currentSearchQuery);
+            const typeMatch = (item.type || "").toLowerCase().includes(currentSearchQuery);
+            const catMatch = (cat.name || "").toLowerCase().includes(currentSearchQuery);
+            return nameMatch || typeMatch || catMatch;
+          });
+
+          if (matchingItems.length > 0) {
+            totalMatchingProducts += matchingItems.length;
+
+            const catSection = document.createElement("div");
+            catSection.className = "service-category-block";
+
+            catSection.innerHTML = `
+              <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid rgba(184,134,11,0.2); padding-bottom: 0.5rem;">
+                <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin: 0; color: var(--gold-strong); font-weight: 700;">${cat.name}</h3>
+                <span style="font-size: 0.85rem; color: var(--muted); font-weight: 600;">${matchingItems.length} Product${matchingItems.length === 1 ? '' : 's'}</span>
+              </div>
+              <div class="vistaprint-grid">
+                ${matchingItems.map((item, idx) => renderItemCard(item, idx)).join("")}
+              </div>
+            `;
+
+            container.appendChild(catSection);
+          }
+        });
+
+        if (resultsCountEl) {
+          if (currentSearchQuery) {
+            resultsCountEl.style.display = "block";
+            resultsCountEl.innerHTML = `Found <strong style="color: var(--gold-strong);">${totalMatchingProducts}</strong> matching service${totalMatchingProducts === 1 ? '' : 's'} for "<strong>${escapeHtml(currentSearchQuery)}</strong>"`;
+          } else {
+            resultsCountEl.style.display = "none";
+          }
+        }
+
+        if (totalMatchingProducts === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 4rem 1rem; background: rgba(255,255,255,0.6); border-radius: 20px; border: 1px solid rgba(44,42,41,0.08); margin: 1rem 0;">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+              <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin: 0 0 0.5rem; color: var(--gold-strong);">No services found</h3>
+              <p style="color: var(--muted); max-width: 500px; margin: 0 auto 1.5rem;">We couldn't find any service matching "<strong>${escapeHtml(currentSearchQuery)}</strong>". Try searching for invitation, welcome letter, menu, board, or video.</p>
+              <button class="button button-secondary" onclick="clearSearch()" style="padding: 0.6rem 1.5rem;">Clear Search</button>
+            </div>
+          `;
+        }
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/[&<>"']/g, function(m) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+      }
+
+      function renderItemCard(item, idx) {
+        const sampleList = (item.samples && item.samples.length > 0) ? item.samples : (item.sample ? [item.sample] : ['graphics/website-dashboard.jpg']);
+        const hasMultiple = sampleList.length > 1;
+        const firstSample = sampleList[0] || '';
+        const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(firstSample);
+
+        let imgWrapperContent = isVideo 
+          ? `<video id="img-${item.id}" src="${firstSample}" controls muted loop playsinline style="width: 100%; height: 100%; object-fit: contain; background: #0c0b0a; border-radius: 12px;" data-index="0"></video>`
+          : `<img id="img-${item.id}" src="${firstSample}" alt="${item.name}" loading="lazy" data-index="0" onclick="openLightbox('${item.id}', 0)">`;
+        
+        if (hasMultiple) {
+          imgWrapperContent += `
+            <button class="carousel-btn prev" onclick="changeSlide('${item.id}', -1, event)">&lsaquo;</button>
+            <button class="carousel-btn next" onclick="changeSlide('${item.id}', 1, event)">&rsaquo;</button>
+            <span class="carousel-counter" id="counter-${item.id}">1/${sampleList.length}</span>
+          `;
+        }
+
+        let demoUrlsList = (item.demoUrls && item.demoUrls.length > 0) 
+          ? item.demoUrls.filter(Boolean) 
+          : (item.demoUrl ? item.demoUrl.split(",").map(u => u.trim()).filter(Boolean) : (item.type === 'website' ? ['index.html'] : []));
+
+        let demoBtn = '';
+        if (demoUrlsList.length === 1) {
+          demoBtn = `
+            <a href="${demoUrlsList[0]}" target="_blank" rel="noopener" class="button button-secondary" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; width: 100%; margin-top: 0.6rem; padding: 0.45rem 0.8rem; font-size: 0.82rem; border-color: var(--gold); color: var(--gold-strong); font-weight: 700; text-decoration: none;">
+              <span>🌐</span> View Live Website Demo
+            </a>
+          `;
+        } else if (demoUrlsList.length > 1) {
+          demoBtn = `
+            <div style="display: flex; flex-direction: column; gap: 0.3rem; width: 100%; margin-top: 0.6rem;">
+              <small style="font-size: 0.72rem; color: var(--muted); font-weight: 700;">🌐 Preview Live Website Demos (${demoUrlsList.length}):</small>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                ${demoUrlsList.map((url, i) => `
+                  <a href="${url}" target="_blank" rel="noopener" class="button button-secondary" style="flex: 1; min-width: 90px; text-align: center; justify-content: center; padding: 0.35rem 0.5rem; font-size: 0.78rem; border-color: var(--gold); color: var(--gold-strong); font-weight: 700; text-decoration: none;">
+                    Demo ${i + 1}
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        const inCart = CartManager.isInCart(item.id);
+        const cardActionBtn = getCardActionBtnHtml(item, inCart);
+
+        return `
+          <div class="vistaprint-card">
+            <div class="vistaprint-img-box ${isVideo || item.type === 'video' ? 'video-card-box' : ''}" id="wrapper-${item.id}" data-samples='${JSON.stringify(sampleList)}'>
+              <button class="vistaprint-heart" title="Add to Wishlist" onclick="event.stopPropagation(); CartManager.showToast('Saved to wishlist!')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2c2a29" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </button>
+              ${imgWrapperContent}
+            </div>
+            
+            <h4 class="vistaprint-title">${item.name}</h4>
+            <p class="vistaprint-subtitle">Max 2-3 Days Estimated Delivery</p>
+
+            ${demoBtn}
+
+            <div style="display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.75rem; border-top: 1px solid rgba(44,42,41,0.08); padding-top: 0.6rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="vistaprint-price" style="font-size: 0.85rem; font-weight: 700; color: var(--gold-strong);">Custom Design</span>
+                <div style="display: inline-flex; align-items: center; background: rgba(44,42,41,0.06); border-radius: 8px; border: 1px solid rgba(44,42,41,0.15); overflow: hidden;">
+                  <button type="button" onclick="adjustCardQty('${item.id}', -1)" style="border:none; background:none; padding: 0.25rem 0.6rem; cursor:pointer; font-weight:bold; font-size: 1rem; color: var(--text);">-</button>
+                  <input type="number" id="qty-${item.id}" value="1" min="1" max="99" style="width: 34px; text-align: center; border: none; background: transparent; font-size: 0.88rem; font-weight: 700; color: var(--text); outline: none;">
+                  <button type="button" onclick="adjustCardQty('${item.id}', 1)" style="border:none; background:none; padding: 0.25rem 0.6rem; cursor:pointer; font-weight:bold; font-size: 1rem; color: var(--text);">+</button>
+                </div>
+              </div>
+              ${cardActionBtn}
+            </div>
+          </div>
+        `;
+      }
+
+      function getCardActionBtnHtml(item, inCart) {
+        if (inCart) {
+          return `<button id="btn-${item.id}" onclick='toggleCardCart(${JSON.stringify(item)}, "${item.id}")' class="button" style="width: 100%; border-radius: 8px; font-weight: 700; padding: 0.55rem; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='#ffebee'; this.style.color='#c62828'; this.style.borderColor='#ef9a9a'; this.innerHTML='❌ Remove from Cart';" onmouseout="this.style.background='#e8f5e9'; this.style.color='#2e7d32'; this.style.borderColor='#a5d6a7'; this.innerHTML='✔ In Cart';">✔ In Cart</button>`;
+        } else {
+          return `<button id="btn-${item.id}" onclick='toggleCardCart(${JSON.stringify(item)}, "${item.id}")' class="button button-primary" style="width: 100%; border-radius: 8px; font-weight: 700; padding: 0.55rem; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">🛒 Add to Cart</button>`;
+        }
+      }
+
+      function adjustCardQty(itemId, change) {
+        const input = document.getElementById(`qty-${itemId}`);
+        if (!input) return;
+        let val = parseInt(input.value) || 1;
+        val = Math.max(1, val + change);
+        input.value = val;
+      }
+
+      function toggleCardCart(item, itemId) {
+        const inCart = CartManager.isInCart(itemId);
+        if (inCart) {
+          CartManager.removeItem(itemId);
+          CartManager.showToast(`Removed "${item.name}" from Cart`, true);
+          updateCardBtnState(item, itemId, false);
+        } else {
+          const input = document.getElementById(`qty-${itemId}`);
+          const qty = input ? (parseInt(input.value) || 1) : 1;
+          CartManager.addItem(item, qty);
+          updateCardBtnState(item, itemId, true);
+        }
+      }
+
+      function updateCardBtnState(item, itemId, inCart) {
+        const btn = document.getElementById(`btn-${itemId}`);
+        if (!btn) return;
+
+        if (inCart) {
+          btn.className = "button";
+          btn.style.cssText = "width: 100%; border-radius: 8px; font-weight: 700; padding: 0.55rem; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; cursor: pointer; transition: all 0.2s ease;";
+          btn.innerHTML = "✔ In Cart";
+          btn.onmouseover = function() {
+            this.style.background = "#ffebee";
+            this.style.color = "#c62828";
+            this.style.borderColor = "#ef9a9a";
+            this.innerHTML = "❌ Remove from Cart";
+          };
+          btn.onmouseout = function() {
+            this.style.background = "#e8f5e9";
+            this.style.color = "#2e7d32";
+            this.style.borderColor = "#a5d6a7";
+            this.innerHTML = "✔ In Cart";
+          };
+        } else {
+          btn.className = "button button-primary";
+          btn.style.cssText = "width: 100%; border-radius: 8px; font-weight: 700; padding: 0.55rem; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem;";
+          btn.innerHTML = "🛒 Add to Cart";
+          btn.onmouseover = null;
+          btn.onmouseout = null;
+        }
+      }
+
+      function changeSlide(itemId, direction, event) {
+        if (event) event.stopPropagation();
+        const wrapper = document.getElementById(`wrapper-${itemId}`);
+        if (!wrapper) return;
+        
+        const samples = JSON.parse(wrapper.getAttribute("data-samples") || "[]");
+        let img = document.getElementById(`img-${itemId}`);
+        const counter = document.getElementById(`counter-${itemId}`);
+        
+        let currentIndex = parseInt(img.getAttribute("data-index") || "0");
+        currentIndex = (currentIndex + direction + samples.length) % samples.length;
+        
+        const nextSrc = samples[currentIndex];
+        const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(nextSrc);
+
+        if (isVideo && img.tagName !== 'VIDEO') {
+          const video = document.createElement('video');
+          video.id = `img-${itemId}`;
+          video.src = nextSrc;
+          video.controls = true;
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.style.cssText = "width:100%; height:100%; object-fit:cover;";
+          img.replaceWith(video);
+        } else if (!isVideo && img.tagName !== 'IMG') {
+          const newImg = document.createElement('img');
+          newImg.id = `img-${itemId}`;
+          newImg.src = nextSrc;
+          newImg.alt = "sample";
+          newImg.loading = "lazy";
+          newImg.onclick = () => openLightbox(itemId, currentIndex);
+          img.replaceWith(newImg);
+        } else {
+          img.src = nextSrc;
+        }
+
+        const currentMedia = document.getElementById(`img-${itemId}`);
+        if (currentMedia) currentMedia.setAttribute("data-index", currentIndex);
+        if (counter) counter.textContent = `${currentIndex + 1}/${samples.length}`;
+      }
+
+      // AUTO-ROTATE CAROUSEL LOGIC
+      let autoRotateTimer = null;
+      let hoveringItem = null;
+
+      function startAutoCarousel() {
+        if (autoRotateTimer) clearInterval(autoRotateTimer);
+        autoRotateTimer = setInterval(() => {
+          document.querySelectorAll(".vistaprint-img-box").forEach(wrapper => {
+            const itemId = wrapper.id.replace("wrapper-", "");
+            if (hoveringItem === itemId) return; // Pause auto-rotate when hovered
+            const currentMedia = document.getElementById(`img-${itemId}`);
+            if (currentMedia && currentMedia.tagName === 'VIDEO' && !currentMedia.paused) return; // Pause auto-rotate when video is actively playing
+            const samples = JSON.parse(wrapper.getAttribute("data-samples") || "[]");
+            if (samples.length > 1) {
+              changeSlide(itemId, 1, null);
+            }
+          });
+        }, 4000);
+      }
+
+      // Attach hover listeners for auto-rotate pause
+      document.addEventListener("mouseover", (e) => {
+        const box = e.target.closest(".vistaprint-img-box");
+        if (box) {
+          hoveringItem = box.id.replace("wrapper-", "");
+        }
+      });
+      document.addEventListener("mouseout", (e) => {
+        const box = e.target.closest(".vistaprint-img-box");
+        if (box) {
+          hoveringItem = null;
+        }
+      });
+
+      // LIGHTBOX FULLSCREEN MEDIA VIEWER
+      let currentLightboxSamples = [];
+      let currentLightboxIndex = 0;
+
+      function openLightbox(itemId, index = 0) {
+        const wrapper = document.getElementById(`wrapper-${itemId}`);
+        if (!wrapper) return;
+
+        currentLightboxSamples = JSON.parse(wrapper.getAttribute("data-samples") || "[]");
+        if (currentLightboxSamples.length === 0) return;
+
+        const currentMedia = document.getElementById(`img-${itemId}`);
+        currentLightboxIndex = currentMedia ? parseInt(currentMedia.getAttribute("data-index") || index) : index;
+
+        updateLightboxImage();
+        document.getElementById("lightboxModal").classList.add("open");
+      }
+
+      function closeLightbox() {
+        const modal = document.getElementById("lightboxModal");
+        modal.classList.remove("open");
+        const box = document.getElementById("lightboxMediaBox");
+        if (box) box.innerHTML = ""; // Stop playing video when closing lightbox
+      }
+
+      function lightboxNav(dir) {
+        if (currentLightboxSamples.length <= 1) return;
+        currentLightboxIndex = (currentLightboxIndex + dir + currentLightboxSamples.length) % currentLightboxSamples.length;
+        updateLightboxImage();
+      }
+
+      function updateLightboxImage() {
+        const box = document.getElementById("lightboxMediaBox");
+        if (!box) return;
+        const src = currentLightboxSamples[currentLightboxIndex];
+        const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(src);
+
+        if (isVideo) {
+          box.innerHTML = `<video src="${src}" controls autoplay loop style="max-width: 90vw; max-height: 85vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); outline: none;"></video>`;
+        } else {
+          box.innerHTML = `<img id="lightboxImg" src="${src}" alt="Full resolution view" style="max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain;">`;
+        }
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") lightboxNav(-1);
+        if (e.key === "ArrowRight") lightboxNav(1);
+      });
+
+      loadServices().then(() => {
+        startAutoCarousel();
+      });
+    </script>
+  </body>
+</html>

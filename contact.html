@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Wedding Design Proposal Platform</title>
+    <meta
+      name="description"
+      content="Contact and inquiry page for the wedding design proposal website."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-shell">
+    <header class="topbar">
+      <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
+        <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
+        <div>
+          <h1 style="font-size: 1.15rem; margin: 0; color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; line-height: 1.1;">Vybtek Studio</h1>
+          <p class="eyebrow" style="margin: 0.15rem 0 0 0; font-size: 0.72rem; color: var(--gold-strong); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;">Wedding Creatives</p>
+        </div>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="packages.html">Packages</a>
+        <a href="portfolio.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a class="button button-primary header-cart-btn" href="cart.html" style="font-size: 0.85rem; padding: 0.45rem 1.1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;">🛒 Cart <span class="cart-badge-count">0</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero section">
+        <div class="page-hero-copy">
+          <p class="eyebrow">Inquiry</p>
+          <h2>Capture leads with a clear consultation flow.</h2>
+          <p class="lead">
+            Keep the next step simple: clients can request a call, approve a quote, or send a brief with their
+            wedding date and venue details.
+          </p>
+        </div>
+        <div class="page-hero-graphic">
+          <img src="graphics/venue-map.svg" alt="Wedding venue map and seating concept" />
+        </div>
+      </section>
+
+      <section class="section contact-grid">
+        <article class="contact-card">
+          <h3>Quick Inquiry</h3>
+          <form class="contact-form">
+            <input type="text" placeholder="Couple name" />
+            <input type="email" placeholder="Email address" />
+            <input type="text" placeholder="Wedding date" />
+            <textarea rows="5" placeholder="Tell us about your event, style, and required services"></textarea>
+            <button class="button button-primary" type="button">Request Consultation</button>
+          </form>
+        </article>
+        <article class="contact-card">
+          <h3>Next Steps</h3>
+          <ul class="download-list">
+            <li>Browse services</li>
+            <li>Select package</li>
+            <li>Receive instant quotation</li>
+            <li>Approve proposal</li>
+            <li>Track design progress</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Contact</p>
+      <p>Fast inquiry flow for proposal approvals and bookings.</p>
+      <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
+    </footer>
+    <script src="nav.js"></script>
+    <script src="cart-manager.js"></script>
+</body>
+</html>

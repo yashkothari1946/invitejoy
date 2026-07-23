@@ -1,0 +1,23 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#191410"/>
+      <stop offset="1" stop-color="#0D0B09"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="120" y1="120" x2="1080" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0D4A0"/>
+      <stop offset="1" stop-color="#B98A50"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="56" fill="url(#bg)"/>
+  <rect x="120" y="110" width="960" height="680" rx="36" fill="#F7EFE6" fill-opacity="0.04" stroke="rgba(247,239,230,0.12)" stroke-width="2"/>
+  <path d="M220 670C300 560 370 520 460 510C540 500 620 450 690 380C770 300 860 270 980 240" stroke="url(#gold)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M260 250C340 260 400 310 460 380C520 450 600 500 690 520C790 545 890 600 980 680" stroke="#F7EFE6" stroke-opacity="0.3" stroke-width="10" stroke-dasharray="18 16" stroke-linecap="round"/>
+  <circle cx="360" cy="330" r="54" fill="#D8B36F" fill-opacity="0.2" stroke="url(#gold)" stroke-width="8"/>
+  <circle cx="560" cy="470" r="54" fill="#D8B36F" fill-opacity="0.2" stroke="url(#gold)" stroke-width="8"/>
+  <circle cx="780" cy="390" r="54" fill="#D8B36F" fill-opacity="0.2" stroke="url(#gold)" stroke-width="8"/>
+  <rect x="240" y="560" width="190" height="98" rx="22" fill="#F7EFE6" fill-opacity="0.08"/>
+  <rect x="470" y="250" width="220" height="120" rx="22" fill="#F7EFE6" fill-opacity="0.08"/>
+  <rect x="830" y="550" width="210" height="110" rx="22" fill="#F7EFE6" fill-opacity="0.08"/>
+  <text x="210" y="790" fill="#F7EFE6" fill-opacity="0.9" font-family="Cormorant Garamond, serif" font-size="44" font-weight="700">Venue map and seating plan</text>
+</svg>

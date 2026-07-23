@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Design Proposal Platform</title>
+    <meta
+      name="description"
+      content="A multi-page wedding design proposal website with services, packages, portfolio graphics, and instant quotation."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-shell">
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+    <header class="topbar">
+      <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
+        <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
+        <div>
+          <h1 style="font-size: 1.15rem; margin: 0; color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; line-height: 1.1;">Vybtek Studio</h1>
+          <p class="eyebrow" style="margin: 0.15rem 0 0 0; font-size: 0.72rem; color: var(--gold-strong); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;">Wedding Creatives</p>
+        </div>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="packages.html">Packages</a>
+        <a href="portfolio.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a class="button button-primary header-cart-btn" href="cart.html" style="font-size: 0.85rem; padding: 0.45rem 1.1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem;">🛒 Cart <span class="cart-badge-count">0</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section">
+        <div class="hero-copy">
+          <p class="eyebrow">Multi-page wedding sales experience</p>
+          <h2>Turn inquiries into a premium proposal, a custom package, and a polished booking journey.</h2>
+          <p class="lead">
+            This site structure gives your studio a real luxury presence. Couples can browse services, review
+            package tiers, view relevant graphics, and move into an instant quotation flow without leaving the
+            brand experience.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="cart.html">Open Calculator</a>
+            <a class="button button-secondary" href="services.html">Explore Services</a>
+          </div>
+          <div class="hero-stats">
+            <article>
+              <strong>5</strong>
+              <span>dedicated pages</span>
+            </article>
+            <article>
+              <strong>4</strong>
+              <span>relevant graphics</span>
+            </article>
+            <article>
+              <strong>Instant</strong>
+              <span>quotation updates</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-visual collage-visual">
+          <div class="floating-card collage-card card-a">
+            <img class="graphic-img" src="graphics/invitation-crest.jpg" alt="Elegant invitation crest graphic" />
+          </div>
+          <div class="floating-card collage-card card-b">
+            <img class="graphic-img" src="graphics/website-dashboard.jpg" alt="Wedding website dashboard preview" />
+          </div>
+          <div class="floating-card collage-card card-c">
+            <img class="graphic-img" src="graphics/stationery-suite.jpg" alt="Wedding stationery suite mockup" />
+          </div>
+          <div class="floating-card small-card collage-note">
+            <span>Booking flow</span>
+            <strong>Proposal - approval - dashboard</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Page Map</p>
+          <h2>Each page has a job, and each job has a visual story.</h2>
+        </div>
+        <div class="page-links-grid">
+          <a class="page-link-card" href="services.html">
+            <span>Services</span>
+            <strong>Branding, invitation design, stationery graphics, signage layouts, and digital guest experience</strong>
+          </a>
+          <a class="page-link-card" href="packages.html">
+            <span>Packages</span>
+            <strong>Starter, Premium, and Luxury design plans with clear deliverables</strong>
+          </a>
+          <a class="page-link-card" href="portfolio.html">
+            <span>Portfolio</span>
+            <strong>Graphics, mockups, and before-after presentation frames</strong>
+          </a>
+          <a class="page-link-card" href="cart.html">
+            <span>Cart</span>
+            <strong>Live quotation engine with addons, GST, and discounts</strong>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <p>Wedding Design Proposal Platform</p>
+        <p>Luxury design plans with clear deliverables.</p>
+        <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
+      </div>
+    </footer>
+    <script src="nav.js"></script>
+    <script src="cart-manager.js"></script>
+</body>
+</html>
