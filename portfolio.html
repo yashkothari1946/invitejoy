@@ -224,7 +224,8 @@
                 </div>
               </div>
             `;
-            const inCart = CartManager.isInCart(item.id);
+          }
+          const inCart = CartManager.isInCart(item.id);
           const cardActionBtn = getGalleryActionBtnHtml(item, inCart);
 
           grid.innerHTML += `
