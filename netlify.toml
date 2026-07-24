@@ -1,0 +1,16 @@
+# Wedvyb wedding-stationery FRONTEND — static site.
+# The backend/API is served separately by vybtek-back at /api/wedvyb (see config.js).
+# No build step: plain HTML/CSS/JS is published as-is from the repo root.
+[build]
+  publish = "."
+
+# Long-cache static assets; HTML stays fresh so config/API changes propagate.
+[[headers]]
+  for = "/graphics/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

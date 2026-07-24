@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard | Vybtek Wedding</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/styles.css" />
     <style>
       .admin-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid rgba(44,42,41,0.1); padding-bottom: 0.5rem; }
       .admin-tab { padding: 0.5rem 1.5rem; font-weight: 700; border: none; background: none; cursor: pointer; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -0.65rem; }
@@ -39,6 +39,17 @@
     </style>
   </head>
   <body class="page-shell">
+    <!-- Admin login gate (shared Manuplast/Vybtek JWT) -->
+    <div id="wedvyb-login-overlay" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(20,16,13,0.96); align-items:center; justify-content:center;">
+      <div style="background:#fff; padding:2.5rem; border-radius:16px; width:min(90vw,360px); box-shadow:0 20px 60px rgba(0,0,0,0.35);">
+        <h2 style="margin:0 0 0.35rem; font-size:1.3rem;">Admin Login</h2>
+        <p style="margin:0 0 1.5rem; color:#8a8a8a; font-size:0.85rem;">Vybtek Wedding Studio — Control Center</p>
+        <input id="wedvyb-login-user" type="text" placeholder="Username" autocomplete="username" style="width:100%; box-sizing:border-box; padding:0.75rem; margin-bottom:0.75rem; border:1px solid #ddd; border-radius:8px;" />
+        <input id="wedvyb-login-pass" type="password" placeholder="Password" autocomplete="current-password" style="width:100%; box-sizing:border-box; padding:0.75rem; margin-bottom:0.5rem; border:1px solid #ddd; border-radius:8px;" onkeydown="if(event.key==='Enter'){document.getElementById('wedvyb-login-btn').click();}" />
+        <p id="wedvyb-login-err" style="display:none; color:#c0392b; font-size:0.8rem; margin:0 0 0.75rem;">Invalid credentials. Please try again.</p>
+        <button id="wedvyb-login-btn" class="button button-primary" style="width:100%; padding:0.8rem;" onclick="wedvybDoLogin()">Login</button>
+      </div>
+    </div>
     <header class="topbar">
       <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
         <img src="graphics/vybtek-logo.png" alt="Vybtek Logo" class="brand-logo-img" onerror="this.src='https://vybtek.com/images/logo.png'">
@@ -282,8 +293,9 @@
     </div>
 
     <div id="toast" class="toast">Saved Successfully!</div>
-    <script src="nav.js"></script>
-    <script src="admin.js"></script>
-    <script src="cart-manager.js"></script>
+  <script src="js/config.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/cart-manager.js"></script>
   </body>
 </html>

@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
       .cart-item-row {
@@ -252,8 +252,9 @@
       <p style="font-size: 0.85rem; color: var(--gold-strong); font-weight: 700; margin-top: 0.5rem;">⚡ Powered by Vybtek</p>
     </footer>
 
-    <script src="nav.js"></script>
-    <script src="cart-manager.js"></script>
+  <script src="js/config.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/cart-manager.js"></script>
     <script>
       const currency = new Intl.NumberFormat("en-IN", {
         style: "currency",
@@ -383,7 +384,7 @@
 
       async function fetchCoupons() {
         try {
-          const res = await fetch("/api/data");
+          const res = await fetch(`${API_BASE}/data`);
           if (res.ok) {
             const data = await res.json();
             if (data.coupons && data.coupons.length > 0) {
@@ -647,7 +648,7 @@
           });
 
           try {
-            const uploadRes = await fetch("/api/upload", {
+            const uploadRes = await fetch(`${API_BASE}/customer-upload`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ filename: file.name, base64 })
@@ -719,7 +720,7 @@
         };
 
         try {
-          await fetch("/api/orders", {
+          await fetch(`${API_BASE}/orders`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(orderRecord)
@@ -771,7 +772,7 @@
           });
 
           try {
-            const uploadRes = await fetch("/api/upload", {
+            const uploadRes = await fetch(`${API_BASE}/customer-upload`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ filename: file.name, base64 })
@@ -830,7 +831,7 @@
         }
 
         try {
-          const res = await fetch("/api/create-order", {
+          const res = await fetch(`${API_BASE}/create-order`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ amount: currentGrandTotal })
@@ -852,7 +853,7 @@
             status: "New"
           };
 
-          await fetch("/api/orders", {
+          await fetch(`${API_BASE}/orders`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(orderRecord)
@@ -878,7 +879,7 @@
               order_id: orderData.id,
               prefill: { name, email, contact: phone },
               handler: async function (response) {
-                await fetch("/api/orders/update-status", {
+                await fetch(`${API_BASE}/orders/update-status`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ orderId: orderData.id, status: "Paid & Processing" })
