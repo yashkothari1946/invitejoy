@@ -55,24 +55,59 @@
       <section class="section contact-grid">
         <article class="contact-card">
           <h3>Quick Inquiry</h3>
-          <form class="contact-form">
-            <input type="text" placeholder="Couple name" />
-            <input type="email" placeholder="Email address" />
-            <input type="text" placeholder="Wedding date" />
-            <textarea rows="5" placeholder="Tell us about your event, style, and required services"></textarea>
-            <button class="button button-primary" type="button">Request Consultation</button>
+          <form class="contact-form" id="inquiryForm" onsubmit="submitInquiry(event)">
+            <input type="text" id="inqName" placeholder="Couple name" required />
+            <input type="email" id="inqEmail" placeholder="Email address" required />
+            <input type="text" id="inqDate" placeholder="Wedding date" />
+            <textarea id="inqMessage" rows="5" placeholder="Tell us about your event, style, and required services"></textarea>
+            <button class="button button-primary" type="submit" id="inqBtn">Request Consultation</button>
+            <p id="inqMsg" style="display:none; margin-top:0.75rem; font-size:0.9rem; font-weight:600;"></p>
           </form>
         </article>
         <article class="contact-card">
-          <h3>Next Steps</h3>
-          <ul class="download-list">
-            <li>Browse services</li>
-            <li>Select package</li>
-            <li>Receive instant quotation</li>
-            <li>Approve proposal</li>
-            <li>Track design progress</li>
-          </ul>
+          <h3>How It Works</h3>
+          <ol style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.1rem;">
+            <li style="display: flex; gap: 0.85rem; align-items: flex-start;">
+              <span style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--gold, #b8860b); color: #fff; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">1</span>
+              <div>
+                <strong style="display: block; color: var(--text, #2c2a29);">Share your brief</strong>
+                <span style="font-size: 0.88rem; color: var(--muted, #777);">Tell us your wedding date, style, and the pieces you need.</span>
+              </div>
+            </li>
+            <li style="display: flex; gap: 0.85rem; align-items: flex-start;">
+              <span style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--gold, #b8860b); color: #fff; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">2</span>
+              <div>
+                <strong style="display: block; color: var(--text, #2c2a29);">Get an instant quote</strong>
+                <span style="font-size: 0.88rem; color: var(--muted, #777);">Build your package and download a detailed proposal in seconds.</span>
+              </div>
+            </li>
+            <li style="display: flex; gap: 0.85rem; align-items: flex-start;">
+              <span style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--gold, #b8860b); color: #fff; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">3</span>
+              <div>
+                <strong style="display: block; color: var(--text, #2c2a29);">Approve &amp; book</strong>
+                <span style="font-size: 0.88rem; color: var(--muted, #777);">Confirm your proposal and secure your date with a simple online payment.</span>
+              </div>
+            </li>
+            <li style="display: flex; gap: 0.85rem; align-items: flex-start;">
+              <span style="flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--gold, #b8860b); color: #fff; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;">4</span>
+              <div>
+                <strong style="display: block; color: var(--text, #2c2a29);">We design &amp; deliver</strong>
+                <span style="font-size: 0.88rem; color: var(--muted, #777);">Our studio crafts every piece and delivers your finished stationery.</span>
+              </div>
+            </li>
+          </ol>
         </article>
+      </section>
+
+      <section class="section" style="text-align: center;">
+        <p class="eyebrow" style="justify-content: center;">Get in Touch</p>
+        <h3 style="margin: 0.4rem 0 1.5rem;">Prefer to reach us directly?</h3>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem;">
+          <a href="mailto:Support@vybtek.com" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text, #2c2a29); font-weight: 600; padding: 0.7rem 1.2rem; border: 1px solid rgba(184,134,11,0.35); border-radius: 10px;">✉️ Support@vybtek.com</a>
+          <a href="tel:+919001200450" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text, #2c2a29); font-weight: 600; padding: 0.7rem 1.2rem; border: 1px solid rgba(184,134,11,0.35); border-radius: 10px;">📞 +91 90012 00450</a>
+          <a href="https://wa.me/919001200450" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #fff; font-weight: 600; padding: 0.7rem 1.2rem; background: #25D366; border-radius: 10px;">💬 WhatsApp</a>
+          <span style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--muted, #777); font-weight: 600; padding: 0.7rem 1.2rem;">🕑 Mon–Sat · 10 AM – 7 PM IST</span>
+        </div>
       </section>
     </main>
 
@@ -84,5 +119,43 @@
   <script src="js/config.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/cart-manager.js"></script>
+    <script>
+      async function submitInquiry(e) {
+        if (e) e.preventDefault();
+        const btn = document.getElementById("inqBtn");
+        const msg = document.getElementById("inqMsg");
+        const name = document.getElementById("inqName").value.trim();
+        const email = document.getElementById("inqEmail").value.trim();
+        const wedding_date = document.getElementById("inqDate").value.trim();
+        const message = document.getElementById("inqMessage").value.trim();
+
+        msg.style.display = "none";
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        try {
+          const res = await fetch(`${API_BASE}/inquiry`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, wedding_date, message }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            document.getElementById("inquiryForm").reset();
+            msg.textContent = "Thank you! We’ve received your inquiry and will be in touch shortly.";
+            msg.style.color = "#2e7d32";
+          } else {
+            msg.textContent = data.error || "Something went wrong. Please try again.";
+            msg.style.color = "#c0392b";
+          }
+        } catch (err) {
+          msg.textContent = "Network error. Please try again, or email Support@vybtek.com.";
+          msg.style.color = "#c0392b";
+        } finally {
+          msg.style.display = "block";
+          btn.disabled = false;
+          btn.textContent = "Request Consultation";
+        }
+      }
+    </script>
 </body>
 </html>

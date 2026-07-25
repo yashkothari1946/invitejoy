@@ -498,7 +498,9 @@
         const deliveryTime = document.getElementById("deliveryTime")?.textContent || "-";
 
         const pdfWrapper = document.createElement("div");
-        pdfWrapper.style.cssText = "padding: 30px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #2c2a29; background: #ffffff; width: 750px;";
+        // Pin to document top-left so html2canvas captures it regardless of page scroll
+        // (appended at the bottom of a scrolled page otherwise renders a blank PDF).
+        pdfWrapper.style.cssText = "position: absolute; top: 0; left: 0; z-index: 99999; padding: 30px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #2c2a29; background: #ffffff; width: 750px;";
 
         let itemsTableHtml = cart.map((item, idx) => {
           const qty = item.quantity || 1;
@@ -593,12 +595,13 @@
           margin:       0.3,
           filename:     filename,
           image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS: true },
+          html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, windowWidth: 800 },
           jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
 
         try {
           if (typeof html2pdf !== 'undefined') {
+            window.scrollTo(0, 0); // ensure capture starts from the document top
             await html2pdf().set(opt).from(pdfWrapper).save();
           } else {
             window.print();

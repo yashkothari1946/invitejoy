@@ -73,7 +73,8 @@
     <main class="section">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
         <div class="admin-tabs" style="margin-bottom: 0;">
-          <button class="admin-tab active" onclick="switchTab('ordersTab', this)">Orders & Inquiries</button>
+          <button class="admin-tab active" onclick="switchTab('ordersTab', this)">Orders</button>
+          <button class="admin-tab" onclick="switchTab('inquiriesTab', this)">📩 Inquiries</button>
           <button class="admin-tab" onclick="switchTab('catalogTab', this)">Catalog & Pricing</button>
           <button class="admin-tab" onclick="switchTab('couponsTab', this)">🎟️ Promo Coupons</button>
           <button class="admin-tab" onclick="switchTab('settingsTab', this)">Payment Settings</button>
@@ -109,6 +110,11 @@
         </div>
 
         <div id="ordersList" class="orders-list"></div>
+      </div>
+
+      <!-- INQUIRIES TAB -->
+      <div id="inquiriesTab" class="tab-content" style="display: none;">
+        <div id="inquiriesList" class="orders-list"></div>
       </div>
 
       <!-- CATALOG TAB -->

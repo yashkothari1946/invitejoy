@@ -35,6 +35,7 @@ async function wedvybLogin(username, password) {
       if (el) el.style.display = "none";
       loadData();
       loadOrders();
+      loadInquiries();
       return true;
     }
   } catch (e) { /* fall through */ }
@@ -80,6 +81,44 @@ async function loadOrders() {
   } catch(e) {
     console.error("Error loading orders", e);
   }
+}
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+async function loadInquiries() {
+  try {
+    const res = await fetch(`${API_BASE}/inquiries`, { headers: wedvybAuthHeaders() });
+    if (wedvybHandle401(res)) return;
+    if (res.ok) renderInquiries(await res.json());
+  } catch (e) { console.error("Error loading inquiries", e); }
+}
+
+function renderInquiries(list) {
+  const c = document.getElementById("inquiriesList");
+  if (!c) return;
+  if (!list || !list.length) {
+    c.innerHTML = `<div class="admin-panel" style="text-align:center; color:var(--muted);"><p>No inquiries yet.</p></div>`;
+    return;
+  }
+  c.innerHTML = list.map((q) => `
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <strong style="font-size:1.05rem; color:var(--gold-strong);">${esc(q.name)}</strong>
+          <p style="margin:0; font-size:0.8rem; color:var(--muted);">${new Date(q.created_at).toLocaleString()}</p>
+        </div>
+        <span class="order-status-badge status-new">${esc(q.status || "New")}</span>
+      </div>
+      <div class="customer-grid">
+        <div><strong>Email:</strong> <a href="mailto:${esc(q.email)}">${esc(q.email)}</a></div>
+        <div><strong>Wedding Date:</strong> ${esc(q.wedding_date || "N/A")}</div>
+      </div>
+      ${q.message ? `<p style="margin-top:0.5rem; white-space:pre-wrap; color:var(--text);">${esc(q.message)}</p>` : ""}
+    </div>`).join("");
 }
 
 function renderMetrics() {
@@ -751,6 +790,7 @@ function logoutAdmin() {
 if (wedvybToken()) {
   loadData();
   loadOrders();
+  loadInquiries();
 } else {
   wedvybShowLogin();
 }
