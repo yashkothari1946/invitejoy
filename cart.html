@@ -594,21 +594,25 @@
         const opt = {
           margin:       0.3,
           filename:     filename,
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, windowWidth: 800 },
-          jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+          image:        { type: 'jpeg', quality: 0.95 },
+          html2canvas:  { scale: 1.5, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0, windowWidth: pdfWrapper.scrollWidth, windowHeight: pdfWrapper.scrollHeight },
+          jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+          pagebreak:    { mode: ['css', 'legacy'] }
         };
 
         try {
-          if (typeof html2pdf !== 'undefined') {
-            window.scrollTo(0, 0); // ensure capture starts from the document top
-            await html2pdf().set(opt).from(pdfWrapper).save();
-          } else {
-            window.print();
+          if (typeof html2pdf === 'undefined') {
+            alert("PDF library failed to load. Please check your connection and try again.");
+            return;
           }
+          window.scrollTo(0, 0);
+          // Let the browser paint the freshly-appended wrapper before capturing it —
+          // capturing too early yields a blank PDF.
+          await new Promise((r) => setTimeout(r, 150));
+          await html2pdf().set(opt).from(pdfWrapper).save();
         } catch(err) {
-          console.error("PDF generation error, fallback to print", err);
-          window.print();
+          console.error("PDF generation error:", err);
+          alert("Could not generate the PDF: " + (err && err.message ? err.message : err));
         } finally {
           document.body.removeChild(pdfWrapper);
           if (btn) {
