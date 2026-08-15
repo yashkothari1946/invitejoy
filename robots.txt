@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /calculator.html
+
+Sitemap: https://invitejoy.vybtek.com/sitemap.xml
