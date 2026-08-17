@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" role="img" aria-label="InviteJoy">
+  <rect x="4" y="9" width="32" height="23" rx="4" fill="#FBF7EC" stroke="#C9A227" stroke-width="1.8"/>
+  <path d="M5.5 11.5 20 22 34.5 11.5" fill="none" stroke="#C9A227" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M20 31c-2.4-2-4.4-3.5-4.4-5.8 0-1.4 1.1-2.5 2.5-2.5.9 0 1.55.46 1.9 1.02.35-.56 1-1.02 1.9-1.02 1.4 0 2.5 1.1 2.5 2.5 0 2.3-2 3.8-4.4 5.8z" fill="#C9A227"/>
+</svg>
