@@ -193,7 +193,7 @@ if (payNowBtn) {
       const res = await fetch(`${API_BASE}/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: currentGrandTotal })
+        body: JSON.stringify({ amount: currentGrandTotal, email, name })
       });
 
       const orderData = await res.json();
@@ -239,11 +239,16 @@ if (payNowBtn) {
             contact: phone
           },
           handler: async function (response) {
-            // Update status to Paid
-            await fetch(`${API_BASE}/orders/update-status`, {
+            // Server verifies Razorpay's signature and marks the order paid (the
+            // webhook does the same if this call never arrives).
+            await fetch(`${API_BASE}/verify-payment`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ orderId: orderData.id, status: "Paid & Processing" })
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
             });
             alert(`Payment Successful!\n\nPayment ID: ${response.razorpay_payment_id}\nOrder ID: ${response.razorpay_order_id}\n\nYour order details are logged in the Admin Dashboard!`);
           },
