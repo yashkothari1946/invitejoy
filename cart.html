@@ -153,6 +153,18 @@
                   <span>Total Delivery Time</span>
                   <strong id="deliveryTime" style="color: var(--gold-strong);">-</strong>
                 </div>
+                <div>
+                  <span>Subtotal</span>
+                  <strong id="summarySubtotal">-</strong>
+                </div>
+                <div id="summaryDiscountRow" style="display: none;">
+                  <span>Discount</span>
+                  <strong id="summaryDiscount" style="color: #2e7d32;">-</strong>
+                </div>
+                <div>
+                  <span>Total</span>
+                  <strong id="summaryTotal" style="color: var(--gold-strong);">-</strong>
+                </div>
               </div>
 
               <div class="customer-info-form" style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.8); border-radius: 12px; border: 1px solid rgba(44,42,41,0.1);">
@@ -475,6 +487,23 @@
         
         const deliveryEl = document.getElementById("deliveryTime");
         if (deliveryEl) deliveryEl.textContent = totalDays > 0 ? `${totalDays} Days (Estimated)` : "-";
+
+        // Totals (display only — the server re-prices the cart and charges its own figure)
+        const subtotal = cart.length ? getCalculatedSubtotal() : 0;
+        let discount = 0;
+        if (activeCoupon && subtotal >= (activeCoupon.minSubtotal || 0)) {
+          discount = activeCoupon.discountType === "percent"
+            ? Math.round(subtotal * activeCoupon.value / 100)
+            : (Number(activeCoupon.value) || 0);
+          discount = Math.min(discount, subtotal);
+        }
+        currentGrandTotal = subtotal - discount;
+        const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+        setText("summarySubtotal", subtotal ? currency.format(subtotal) : "-");
+        setText("summaryDiscount", discount ? "− " + currency.format(discount) : "-");
+        const discRow = document.getElementById("summaryDiscountRow");
+        if (discRow) discRow.style.display = discount ? "" : "none";
+        setText("summaryTotal", currentGrandTotal ? currency.format(currentGrandTotal) : "-");
       }
 
       function toggleInvitationForm() {
@@ -763,10 +792,24 @@
           const res = await fetch(`${API_BASE}/create-order`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: currentGrandTotal, email, name })
+            body: JSON.stringify({
+              items: cart.map(i => ({ id: i.id, quantity: i.quantity || 1 })),
+              extraPages,
+              couponCode: activeCoupon ? activeCoupon.code : "",
+              amount: currentGrandTotal, // only used by the server to detect stale prices
+              email, name
+            })
           });
 
           const orderData = await res.json();
+          if (!res.ok) {
+            payNowBtn.disabled = false;
+            payNowBtn.textContent = "Pay Now & Order";
+            alert(orderData.error || "Could not start the payment. Please try again.");
+            return;
+          }
+          // The server-priced total is what Razorpay will charge.
+          if (orderData.priced) currentGrandTotal = orderData.priced.total;
           
           const orderRecord = {
             id: orderData.id || ("ORD_" + Date.now()),
