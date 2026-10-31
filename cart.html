@@ -82,7 +82,8 @@
         }
       }
     </style>
-  </head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
   <body class="page-shell">
     <header class="topbar">
       <a href="index.html" class="brand-lockup" style="text-decoration: none; color: inherit;">
@@ -251,8 +252,17 @@
                 </div>
               </div>
 
+              <div class="coupon-box" style="margin: 0 0 1rem 0;">
+                <div style="display: flex; gap: 0.5rem;">
+                  <input type="text" id="couponInput" placeholder="Coupon code" style="flex: 1; padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(44,42,41,0.2); font-size: 0.85rem; text-transform: uppercase;">
+                  <button type="button" class="button button-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="applyCouponCode()">Apply</button>
+                </div>
+                <div id="couponStatusMsg" style="font-size: 0.8rem; margin-top: 0.4rem;"></div>
+              </div>
+
               <div class="quote-actions" style="flex-direction: column; gap: 0.75rem;">
-                <button class="button button-primary" id="downloadPdfBtn" style="width: 100%; font-size: 1rem; padding: 0.85rem; background: linear-gradient(135deg, #7a5a07, #b8860b); border-color: #b8860b; color: #ffffff; font-weight: 700;" onclick="generateDirectPdf()">📥 Download PDF Proposal (.pdf)</button>
+                <button class="button button-primary" id="payNowBtn" style="width: 100%; font-size: 1rem; padding: 0.85rem; background: linear-gradient(135deg, #7a5a07, #b8860b); border-color: #b8860b; color: #ffffff; font-weight: 700;" onclick="processCheckout()">💳 Pay Now &amp; Order</button>
+                <button class="button button-secondary" id="downloadPdfBtn" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;" onclick="generateDirectPdf()">📥 Download PDF Proposal (.pdf)</button>
                 <button class="button button-secondary" id="submitInquiryBtn" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;" onclick="submitLocalInquiry()">📥 Save Order Inquiry to Studio</button>
               </div>
               <div class="quote-note">
@@ -673,7 +683,7 @@
           invitationDocPath,
           totalAmount: currentGrandTotal,
           estimatedDelivery: document.getElementById("deliveryTime").textContent,
-          paymentStatus: "Order Inquiry (Localhost)",
+          paymentStatus: "Order Inquiry",
           status: "New"
         };
 
@@ -804,7 +814,7 @@
           const orderData = await res.json();
           if (!res.ok) {
             payNowBtn.disabled = false;
-            payNowBtn.textContent = "Pay Now & Order";
+            payNowBtn.textContent = "💳 Pay Now & Order";
             alert(orderData.error || "Could not start the payment. Please try again.");
             return;
           }
@@ -832,7 +842,7 @@
           });
 
           payNowBtn.disabled = false;
-          payNowBtn.textContent = "Pay Now & Order";
+          payNowBtn.textContent = "💳 Pay Now & Order";
 
           if (orderData.simulated) {
             alert(`🎉 Order Successfully Placed! (Simulated Mode)\n\nOrder ID: ${orderRecord.id}\nCustomer: ${name}\nTotal Amount: ₹${currentGrandTotal.toLocaleString('en-IN')}\n\nYour order details have been sent to the Admin Dashboard!`);
@@ -853,19 +863,26 @@
               handler: async function (response) {
                 // Server verifies Razorpay's signature and marks the order paid (the
                 // webhook does the same if this call never arrives).
-                await fetch(`${API_BASE}/verify-payment`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature
-                  })
-                });
-                alert(`Payment Successful!\n\nPayment ID: ${response.razorpay_payment_id}\nOrder ID: ${response.razorpay_order_id}\n\nYour order is logged in the Admin Dashboard!`);
+                let confirmed = false;
+                try {
+                  const vr = await fetch(`${API_BASE}/verify-payment`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      razorpay_order_id: response.razorpay_order_id,
+                      razorpay_payment_id: response.razorpay_payment_id,
+                      razorpay_signature: response.razorpay_signature
+                    })
+                  });
+                  confirmed = vr.ok;
+                } catch (e) { confirmed = false; }
+                alert(confirmed
+                  ? `Payment successful!\n\nPayment ID: ${response.razorpay_payment_id}\n\nOur studio will start on your order and contact you about the details and any customisation.`
+                  : `Payment received (ID: ${response.razorpay_payment_id}).\n\nConfirmation is taking a moment; we will email you once it is confirmed. Please keep this Payment ID.`);
                 CartManager.clearCart();
                 renderCartItems();
               },
+              modal: { ondismiss: function () { payNowBtn.disabled = false; payNowBtn.textContent = "💳 Pay Now & Order"; } },
               theme: { color: "#b8860b" }
             };
             const rzp = new Razorpay(options);
@@ -876,7 +893,7 @@
 
         } catch(err) {
           payNowBtn.disabled = false;
-          payNowBtn.textContent = "Pay Now & Order";
+          payNowBtn.textContent = "💳 Pay Now & Order";
           alert("Error initiating payment: " + err.message);
         }
       }
